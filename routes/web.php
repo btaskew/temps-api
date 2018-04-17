@@ -17,3 +17,5 @@ $router->get('/', function () use ($router) {
 
 $router->get('/jobs', 'JobsController@index');
 $router->get('/jobs/{id}', 'JobsController@show');
+
+$router->post('/signup', 'UsersController@store');
