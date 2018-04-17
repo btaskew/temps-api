@@ -1,6 +1,6 @@
 <?php
 
-class UserTest extends TestCase
+class AuthenticationTest extends TestCase
 {
     /** @test */
     public function can_signup_a_new_user()

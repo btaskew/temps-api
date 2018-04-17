@@ -17,3 +17,18 @@ $factory->define(App\Job::class, function (Faker\Generator $faker) {
         'description' => $faker->paragraph
     ];
 });
+
+$factory->define(App\User::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->name,
+        'email' => $faker->email,
+        'password' => $faker->word
+    ];
+});
+
+$factory->define(App\ActiveUser::class, function (Faker\Generator $faker) {
+    return [
+        'user_id' => $faker->randomDigitNotNull,
+        'token' => $faker->word
+    ];
+});

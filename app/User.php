@@ -29,4 +29,30 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $hidden = [
         'password',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function($user) {
+            ActiveUser::create([
+                'user_id' => $user->id,
+                'token' => bin2hex(random_bytes(20))
+            ]);
+        });
+
+        static::deleting(function($user) {
+            $user->activeUser->delete();
+        });
+    }
+
+    /**
+     * A User has one ActiveUser
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function activeUser()
+    {
+        return $this->hasOne(ActiveUser::class);
+    }
 }

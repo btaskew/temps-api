@@ -15,10 +15,12 @@ class UsersController extends Controller
             'password' => 'string|required'
         ]);
 
-        return User::create([
+        $user = User::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => app('hash')->make($request->input('password')),
         ]);
+
+        return $user->activeUser;
     }
 }

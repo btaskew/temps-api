@@ -1,6 +1,6 @@
 <?php
 
-class JobsTest extends TestCase
+class JobsQueryTest extends TestCase
 {
     /** @test */
     public function can_query_for_all_jobs()
