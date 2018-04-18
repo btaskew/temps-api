@@ -6,24 +6,33 @@ class UserTest extends TestCase
     public function a_user_has_an_active_user_associated_with_it()
     {
         $user = factory('App\User')->create();
+        factory('App\ActiveUser')->create([
+            'user_id' => $user->id
+        ]);
 
         $this->assertInstanceOf('App\ActiveUser', $user->activeUser);
-    }
-
-    /** @test */
-    public function creating_a_new_user_also_creates_an_active_user()
-    {
-        $user = factory('App\User')->create();
-
-        $this->assertEquals(1, \App\ActiveUser::where('user_id', $user->id)->count());
     }
 
     /** @test */
     public function deleting_a_new_user_also_deletes_active_user()
     {
         $user = factory('App\User')->create();
+        factory('App\ActiveUser')->create([
+            'user_id' => $user->id
+        ]);
+
         $user->delete();
 
         $this->assertEquals(0, \App\ActiveUser::where('user_id', $user->id)->count());
+    }
+
+    /** @test */
+    public function a_user_can_set_their_active_user()
+    {
+        $user = factory('App\User')->create();
+
+        $user->setActive();
+
+        $this->assertInstanceOf('App\ActiveUser', $user->activeUser);
     }
 }

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Auth\Authenticatable;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Lumen\Auth\Authorizable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -34,14 +35,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         parent::boot();
 
-        static::created(function($user) {
-            ActiveUser::create([
-                'user_id' => $user->id,
-                'token' => bin2hex(random_bytes(20))
-            ]);
-        });
-
-        static::deleting(function($user) {
+        static::deleting(function ($user) {
             $user->activeUser->delete();
         });
     }
@@ -54,5 +48,16 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function activeUser()
     {
         return $this->hasOne(ActiveUser::class);
+    }
+
+    /**
+     * Creates an ActiveUser instance for the current user
+     */
+    public function setActive()
+    {
+        ActiveUser::create([
+            'user_id' => $this->id,
+            'token' => bin2hex(random_bytes(20))
+        ]);
     }
 }

@@ -19,3 +19,4 @@ $router->get('/jobs', 'JobsController@index');
 $router->get('/jobs/{id}', 'JobsController@show');
 
 $router->post('/signup', 'UsersController@store');
+$router->post('/login', 'UsersController@login');
