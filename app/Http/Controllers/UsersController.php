@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class UsersController extends Controller
 {
@@ -61,5 +60,24 @@ class UsersController extends Controller
         $user->setActive();
 
         return $user->activeUser;
+    }
+
+    /**
+     * Logout an active user
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout(Request $request)
+    {
+        $user = User::where('email', $request->input('email'))->firstOrFail();
+
+        if (!$user->activeUser) {
+            return response()->json(['success' => 'You are already logged out']);
+        }
+
+        $user->activeUser->delete();
+
+        return response()->json(['success' => 'Log out successful']);
     }
 }

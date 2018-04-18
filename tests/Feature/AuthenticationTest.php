@@ -105,4 +105,16 @@ class AuthenticationTest extends TestCase
             ])
             ->assertResponseStatus(404);
     }
+
+    /** @test */
+    public function can_logout_an_active_user()
+    {
+        $user = factory('App\User')->create();
+        $user->setActive();
+
+        $this->post('/logout', ['email' => $user->email])
+            ->notSeeInDatabase('active_users', [
+                'user_id' => $user->id
+            ]);
+    }
 }
