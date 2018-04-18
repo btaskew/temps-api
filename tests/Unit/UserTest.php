@@ -14,7 +14,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function deleting_a_new_user_also_deletes_active_user()
+    public function deleting_a_user_also_deletes_their_active_user()
     {
         $user = factory('App\User')->create();
         factory('App\ActiveUser')->create([

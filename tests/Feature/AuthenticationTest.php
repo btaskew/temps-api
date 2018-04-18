@@ -61,6 +61,7 @@ class AuthenticationTest extends TestCase
             ->assertResponseStatus(422);
     }
 
+
     /** @test */
     public function can_login_a_new_user()
     {

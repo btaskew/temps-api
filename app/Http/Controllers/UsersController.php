@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
@@ -25,20 +24,17 @@ class UsersController extends Controller
         ]);
 
         if (User::where('email', $request->input('email'))->first()) {
-            return response()
-                ->json(
-                    ['error' => 'User already exists with email ' . $request->input('email')],
-                    422
-                );
+            return $this->respondError(
+                'User already exists with email ' . $request->input('email'),
+                422
+            );
         }
 
         $user = User::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
-        ]);
-
-        $user->setActive();
+        ])->setActive();
 
         return $user->activeUser;
     }
@@ -47,7 +43,7 @@ class UsersController extends Controller
      * Login an existing user
      *
      * @param Request $request
-     * @return ActiveUser
+     * @return \App\ActiveUser|\Illuminate\Http\JsonResponse
      */
     public function login(Request $request)
     {
@@ -59,7 +55,7 @@ class UsersController extends Controller
         $user = User::where('email', $request->input('email'))->firstOrFail();
 
         if (!Hash::check($request->input('password'), $user->password)) {
-            throw new UnauthorizedHttpException('Basic', 'Invalid credentials');
+            return $this->respondError('Invalid credentials', 401);
         }
 
         $user->setActive();
