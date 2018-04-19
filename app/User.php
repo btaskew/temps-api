@@ -61,6 +61,16 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     }
 
     /**
+     * A User has many Jobs
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function jobs()
+    {
+        return $this->hasMany(Job::class);
+    }
+
+    /**
      * Creates an ActiveUser instance for the current user
      */
     public function setActive()
@@ -69,5 +79,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
             'user_id' => $this->id,
             'token' => bin2hex(random_bytes(20))
         ]);
+
+        return $this;
     }
 }

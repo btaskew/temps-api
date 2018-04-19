@@ -13,6 +13,9 @@
 
 $factory->define(App\Job::class, function (Faker\Generator $faker) {
     return [
+        'user_id' => function() {
+            return factory('App\User')->create()->id;
+        },
         'title' => $faker->sentence,
         'description' => $faker->paragraph
     ];

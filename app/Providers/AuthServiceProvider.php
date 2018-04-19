@@ -18,10 +18,14 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app['auth']->viaRequest('api', function ($request) {
+            if (!$request->has('token')) {
+                throw new UnauthorizedHttpException('unauthorised', 'Valid token not provided');
+            }
+
             try {
                 $user = $this->getActiveUser($request->input('token'));
             } catch (ModelNotFoundException $exception) {
-                throw new UnauthorizedHttpException('unauthorised', 'Valid token not provided');
+                throw new UnauthorizedHttpException('unauthorised', 'User not signed in');
             }
 
             return $user;
