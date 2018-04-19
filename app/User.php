@@ -82,14 +82,13 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     /**
      * Creates an ActiveUser instance for the current user
+     *
+     * @return ActiveUser
      */
     public function setActive()
     {
-        ActiveUser::create([
-            'user_id' => $this->id,
+        return $this->activeUser()->create([
             'token' => bin2hex(random_bytes(20))
         ]);
-
-        return $this;
     }
 }

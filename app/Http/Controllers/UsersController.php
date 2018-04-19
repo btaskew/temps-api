@@ -12,7 +12,7 @@ class UsersController extends Controller
      * Store/signup a new user
      *
      * @param Request $request
-     * @return mixed
+     * @return \App\ActiveUser|\Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -29,14 +29,12 @@ class UsersController extends Controller
             );
         }
 
-        $user = User::create([
+        return User::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
             'role' => '2',
         ])->setActive();
-
-        return $user->activeUser;
     }
 
     /**
@@ -58,9 +56,7 @@ class UsersController extends Controller
             return $this->respondError('Invalid credentials', 401);
         }
 
-        $user->setActive();
-
-        return $user->activeUser;
+        return $user->setActive();
     }
 
     /**

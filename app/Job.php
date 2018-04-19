@@ -22,7 +22,7 @@ class Job extends Model
     }
 
     /**
-     * A Bob has many Applications
+     * A Job has many Applications
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -31,10 +31,15 @@ class Job extends Model
         return $this->hasMany(Application::class);
     }
 
+    /**
+     * Create a new application for this job
+     *
+     * @param User $user
+     * @return Application
+     */
     public function apply(User $user)
     {
         return $this->applications()->create([
-            'job_id' => $this->id,
             'user_id' => $user->id
         ]);
     }

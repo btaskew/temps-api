@@ -93,7 +93,7 @@ class AuthenticationTest extends TestCase
     /** @test */
     public function can_logout_an_active_user()
     {
-        $user = create('App\User')->setActive();
+        $user = create('App\User')->setActive()->user;
 
         $this->post('/logout', ['email' => $user->email])
             ->notSeeInDatabase('active_users', [
