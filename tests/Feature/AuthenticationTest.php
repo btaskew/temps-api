@@ -66,7 +66,7 @@ class AuthenticationTest extends TestCase
         $newUser = raw('App\User', ['email' => $existingUser->email]);
 
         $this->post('/signup/worker', $newUser)
-            ->assertResponseStatus(422);
+            ->assertResponseStatus(409);
     }
 
 

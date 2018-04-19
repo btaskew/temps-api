@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Lumen\Routing\Controller as BaseController;
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
 class Controller extends BaseController
 {
@@ -22,7 +24,22 @@ class Controller extends BaseController
 
     /**
      * @param Request $request
-     * @return bool
+     * @return User
+     */
+    protected function createUser(Request $request)
+    {
+        $this->validateUserSignup($request);
+
+        return User::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password'))
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @throws ConflictHttpException
      */
     protected function validateUserSignup(Request $request)
     {
@@ -33,9 +50,7 @@ class Controller extends BaseController
         ]);
 
         if (User::where('email', $request->input('email'))->first()) {
-            return false;
+            throw new ConflictHttpException('User already exists with email ' . $request->input('email'));
         }
-
-        return true;
     }
 }
