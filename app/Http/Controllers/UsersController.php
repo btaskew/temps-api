@@ -33,6 +33,7 @@ class UsersController extends Controller
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
+            'role' => '2',
         ])->setActive();
 
         return $user->activeUser;
