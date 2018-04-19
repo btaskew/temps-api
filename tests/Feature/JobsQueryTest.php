@@ -5,7 +5,7 @@ class JobsQueryTest extends TestCase
     /** @test */
     public function can_query_for_all_jobs()
     {
-        $jobs = factory('App\Job', 3)->create();
+        $jobs = create('App\Job', [], 3);
 
         $this->get('/jobs')
             ->seeJsonContains([
@@ -18,8 +18,8 @@ class JobsQueryTest extends TestCase
     /** @test */
     public function can_query_for_a_single_job()
     {
-        $job = factory('App\Job')->create();
-        $otherJob = factory('App\Job')->create();
+        $job = create('App\Job');
+        $otherJob = create('App\Job');
 
         $this->get("/jobs/$job->id")
             ->seeJsonContains([

@@ -23,7 +23,8 @@
         "classmap": [
             "tests/",
             "database/"
-        ]
+        ],
+        "files": ["tests/helpers.php"]
     },
     "scripts": {
         "post-root-package-install": [

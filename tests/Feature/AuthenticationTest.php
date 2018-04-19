@@ -5,32 +5,24 @@ class AuthenticationTest extends TestCase
     /** @test */
     public function can_signup_a_new_user()
     {
-        $user = [
-            'name' => 'Test user',
-            'email' => 'test@email.com',
-            'password' => 'password'
-        ];
+        $user = raw('App\User');
 
         $this->post('/signup', $user)
             ->seeInDatabase('users', [
-                'name' => 'Test user',
-                'email' => 'test@email.com'
+                'name' => $user['name'],
+                'email' => $user['email']
             ]);
     }
 
     /** @test */
     public function signing_up_a_new_user_also_logs_them_in()
     {
-        $user = [
-            'name' => 'Test user',
-            'email' => 'test@email.com',
-            'password' => 'password'
-        ];
+        $user = raw('App\User');
 
         $this->post('/signup', $user)
             ->seeInDatabase('active_users', [
                 // We know this will be 1 as it's the only user
-                'user_id' => '1'
+                'user_id' => 1
             ]);
     }
 
@@ -49,13 +41,9 @@ class AuthenticationTest extends TestCase
     /** @test */
     public function cant_sign_up_a_new_user_with_the_same_email()
     {
-        $existingUser = factory('App\User')->create();
+        $existingUser = create('App\User');
 
-        $newUser = [
-            'name' => 'Test user',
-            'email' => $existingUser->email,
-            'password' => 'password'
-        ];
+        $newUser = raw('App\User', ['email' => $existingUser->email]);
 
         $this->post('/signup', $newUser)
             ->assertResponseStatus(422);
@@ -65,7 +53,7 @@ class AuthenticationTest extends TestCase
     /** @test */
     public function can_login_a_new_user()
     {
-        $user = factory('App\User')->create([
+        $user = create('App\User', [
             'password' => \Illuminate\Support\Facades\Hash::make('password')
         ]);
 
@@ -81,9 +69,7 @@ class AuthenticationTest extends TestCase
     /** @test */
     public function throws_exception_when_logging_in_with_wrong_password()
     {
-        $user = factory('App\User')->create([
-            'password' => 'foo'
-        ]);
+        $user = create('App\User', ['password' => 'foo']);
 
         $this->post('/login', [
                 'email' => $user->email,
@@ -95,9 +81,7 @@ class AuthenticationTest extends TestCase
     /** @test */
     public function throws_exception_when_logging_in_with_wrong_email()
     {
-        $user = factory('App\User')->create([
-            'email' => 'foo@email.com'
-        ]);
+        $user = create('App\User', ['email' => 'foo@email.com']);
 
         $this->post('/login', [
                 'email' => 'bar@email.com',
@@ -109,8 +93,7 @@ class AuthenticationTest extends TestCase
     /** @test */
     public function can_logout_an_active_user()
     {
-        $user = factory('App\User')->create();
-        $user->setActive();
+        $user = create('App\User')->setActive();
 
         $this->post('/logout', ['email' => $user->email])
             ->notSeeInDatabase('active_users', [
