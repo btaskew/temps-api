@@ -51,33 +51,23 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     }
 
     /**
-     * A User belongs to a Role
+     * A User has a Staff
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function role()
+    public function staff()
     {
-        return $this->belongsTo(Role::class);
+        return $this->hasOne(Staff::class);
     }
 
     /**
-     * A User has many Jobs
+     * A User has a Worker
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function jobs()
+    public function worker()
     {
-        return $this->hasMany(Job::class);
-    }
-
-    /**
-     * A User has many Applications
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function applications()
-    {
-        return $this->hasMany(Application::class);
+        return $this->hasOne(Worker::class);
     }
 
     /**

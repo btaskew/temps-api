@@ -12,17 +12,17 @@ class Application extends Model
     protected $guarded = [];
 
     /**
-     * An application belongs to a user
+     * An Application belongs to a Worker
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user()
+    public function worker()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Worker::class);
     }
 
     /**
-     * An application belongs to a job
+     * An Application belongs to a Job
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

@@ -3,14 +3,34 @@
 class AuthenticationTest extends TestCase
 {
     /** @test */
-    public function can_signup_a_new_user()
+    public function can_signup_a_new_staff_user()
     {
         $user = raw('App\User');
 
-        $this->post('/signup', $user)
+        $this->post('/signup/staff', $user)
             ->seeInDatabase('users', [
                 'name' => $user['name'],
                 'email' => $user['email']
+            ])
+            ->seeInDatabase('staff', [
+                // We know this will be 1 as it's the only user
+                'user_id' => 1
+            ]);
+    }
+
+    /** @test */
+    public function can_signup_a_new_worker_user()
+    {
+        $user = raw('App\User');
+
+        $this->post('/signup/worker', $user)
+            ->seeInDatabase('users', [
+                'name' => $user['name'],
+                'email' => $user['email']
+            ])
+            ->seeInDatabase('workers', [
+                // We know this will be 1 as it's the only user
+                'user_id' => 1
             ]);
     }
 
@@ -19,7 +39,7 @@ class AuthenticationTest extends TestCase
     {
         $user = raw('App\User');
 
-        $this->post('/signup', $user)
+        $this->post('/signup/worker', $user)
             ->seeInDatabase('active_users', [
                 // We know this will be 1 as it's the only user
                 'user_id' => 1
@@ -34,7 +54,7 @@ class AuthenticationTest extends TestCase
             'password' => 'password'
         ];
 
-        $this->post('/signup', $userNoEmail)
+        $this->post('/signup/worker', $userNoEmail)
             ->assertResponseStatus(422);
     }
 
@@ -45,7 +65,7 @@ class AuthenticationTest extends TestCase
 
         $newUser = raw('App\User', ['email' => $existingUser->email]);
 
-        $this->post('/signup', $newUser)
+        $this->post('/signup/worker', $newUser)
             ->assertResponseStatus(422);
     }
 

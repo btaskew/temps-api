@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
+use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
 class Controller extends BaseController
@@ -16,5 +18,24 @@ class Controller extends BaseController
     protected function respondError(string $message, int $code = 500)
     {
         return response()->json(['error' => $message], $code);
+    }
+
+    /**
+     * @param Request $request
+     * @return bool
+     */
+    protected function validateUserSignup(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'string|required',
+            'email' => 'email|required',
+            'password' => 'string|required'
+        ]);
+
+        if (User::where('email', $request->input('email'))->first()) {
+            return false;
+        }
+
+        return true;
     }
 }

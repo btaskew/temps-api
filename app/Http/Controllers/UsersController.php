@@ -9,35 +9,6 @@ use Illuminate\Support\Facades\Hash;
 class UsersController extends Controller
 {
     /**
-     * Store/signup a new user
-     *
-     * @param Request $request
-     * @return \App\ActiveUser|\Illuminate\Http\JsonResponse
-     */
-    public function store(Request $request)
-    {
-        $this->validate($request, [
-            'name' => 'string|required',
-            'email' => 'email|required',
-            'password' => 'string|required'
-        ]);
-
-        if (User::where('email', $request->input('email'))->first()) {
-            return $this->respondError(
-                'User already exists with email ' . $request->input('email'),
-                422
-            );
-        }
-
-        return User::create([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => Hash::make($request->input('password')),
-            'role' => '2',
-        ])->setActive();
-    }
-
-    /**
      * Login an existing user
      *
      * @param Request $request

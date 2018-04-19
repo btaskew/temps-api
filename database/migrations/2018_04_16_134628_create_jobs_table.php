@@ -17,12 +17,12 @@ class CreateJobsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->text('description');
-            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('staff_id');
             $table->timestamps();
 
-            $table->foreign('user_id')
+            $table->foreign('staff_id')
                 ->references('id')
-                ->on('user')
+                ->on('staff')
                 ->onDelete('cascade');
         });
     }

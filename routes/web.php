@@ -15,7 +15,8 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->post('/signup', 'UsersController@store');
+$router->post('/signup/staff', 'StaffController@store');
+$router->post('/signup/worker', 'WorkersController@store');
 $router->post('/login', 'UsersController@login');
 $router->post('/logout', 'UsersController@logout');
 

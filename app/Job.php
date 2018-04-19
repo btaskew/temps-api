@@ -12,13 +12,13 @@ class Job extends Model
     protected $guarded = [];
 
     /**
-     * A Job belongs to a User
+     * A Job belongs to a Staff
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function owner()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(Staff::class, 'staff_id');
     }
 
     /**

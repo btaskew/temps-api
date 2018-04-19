@@ -17,8 +17,11 @@ class StaffMiddleware
     public function handle($request, Closure $next)
     {
         if (!$this->userIsStaff(Auth::user())) {
+            dd("fail");
             return response()->json(['error' => 'Only staff can access this endpoint'], 401);
         }
+
+        dd("passed");
 
         return $next($request);
     }
@@ -29,6 +32,7 @@ class StaffMiddleware
      */
     private function userIsStaff($user)
     {
-        return $user->role_id == 1;
+        dd($user->staff);
+        return $user->staff()->exists();
     }
 }

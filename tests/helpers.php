@@ -39,8 +39,7 @@ function raw($class, $attributes = [], $count = null)
  */
 function setActiveStaff($attributes = [])
 {
-    $attributes['role_id'] = 1;
-    return factory('App\User')->create($attributes)->setActive()->user;
+    return factory('App\Staff')->create($attributes)->setActive()->user;
 }
 
 /**

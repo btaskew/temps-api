@@ -40,22 +40,4 @@ class UserTest extends TestCase
 
         $this->assertInstanceOf('App\Role', $user->role);
     }
-
-    /** @test */
-    public function a_user_has_jobs()
-    {
-        $user = create('App\User');
-        create('App\Job', ['user_id' => $user->id]);
-
-        $this->assertInstanceOf('App\Job', $user->jobs->first());
-    }
-
-    /** @test */
-    public function a_user_has_applications()
-    {
-        $user = create('App\User');
-        create('App\Application', ['user_id' => $user->id]);
-
-        $this->assertInstanceOf('App\Application', $user->applications->first());
-    }
 }

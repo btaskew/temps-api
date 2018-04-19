@@ -13,8 +13,8 @@
 
 $factory->define(App\Job::class, function (Faker\Generator $faker) {
     return [
-        'user_id' => function() {
-            return factory('App\User')->create()->id;
+        'staff_id' => function() {
+            return factory('App\Staff')->create()->id;
         },
         'title' => $faker->sentence,
         'description' => $faker->paragraph
@@ -25,8 +25,23 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->email,
-        'password' => $faker->word,
-        'role_id' => $faker->numberBetween(0, 1)
+        'password' => $faker->word
+    ];
+});
+
+$factory->define(App\Staff::class, function (Faker\Generator $faker) {
+    return [
+        'user_id' => function() {
+            return factory('App\User')->create()->id;
+        },
+    ];
+});
+
+$factory->define(App\Worker::class, function (Faker\Generator $faker) {
+    return [
+        'user_id' => function() {
+            return factory('App\User')->create()->id;
+        },
     ];
 });
 
@@ -37,16 +52,10 @@ $factory->define(App\ActiveUser::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Role::class, function (Faker\Generator $faker) {
-    return [
-        'role' => $faker->word
-    ];
-});
-
 $factory->define(App\Application::class, function (Faker\Generator $faker) {
     return [
-        'user_id' => function() {
-            return factory('App\User')->create()->id;
+        'worker_id' => function() {
+            return factory('App\Worker')->create()->id;
         },
         'job_id' => function() {
             return factory('App\Job')->create()->id;
