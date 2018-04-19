@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ad8af3a630c5aaf41cb4c34e85f43c43",
+    "content-hash": "e1a2d0776dd4c737851c4e1868da5a92",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -1313,6 +1313,58 @@
                 "lumen"
             ],
             "time": "2018-03-27T16:21:45+00:00"
+        },
+        {
+            "name": "mmghv/lumen-route-binding",
+            "version": "1.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mmghv/lumen-route-binding.git",
+                "reference": "4b8a01dfb97f755ee043d0070ceceb3843ad2d30"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mmghv/lumen-route-binding/zipball/4b8a01dfb97f755ee043d0070ceceb3843ad2d30",
+                "reference": "4b8a01dfb97f755ee043d0070ceceb3843ad2d30",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/lumen-framework": "~5.0",
+                "nikic/fast-route": ">=0.4 <2.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "phpunit/phpunit": "~4.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "mmghv\\LumenRouteBinding\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mohamed Gharib",
+                    "email": "mmghv@coddest.com"
+                }
+            ],
+            "description": "Route model binding for Lumen",
+            "homepage": "https://github.com/mmghv/lumen-route-binding",
+            "keywords": [
+                "bind",
+                "binding",
+                "fast-route",
+                "lumen",
+                "model",
+                "route",
+                "route model binding"
+            ],
+            "time": "2017-09-21T14:02:56+00:00"
         },
         {
             "name": "monolog/monolog",

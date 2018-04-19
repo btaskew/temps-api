@@ -42,3 +42,14 @@ $factory->define(App\Role::class, function (Faker\Generator $faker) {
         'role' => $faker->word
     ];
 });
+
+$factory->define(App\Application::class, function (Faker\Generator $faker) {
+    return [
+        'user_id' => function() {
+            return factory('App\User')->create()->id;
+        },
+        'job_id' => function() {
+            return factory('App\Job')->create()->id;
+        },
+    ];
+});

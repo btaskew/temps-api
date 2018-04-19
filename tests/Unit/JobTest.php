@@ -9,4 +9,13 @@ class JobTest extends TestCase
 
         $this->assertInstanceOf('App\User', $job->owner);
     }
+
+    /** @test */
+    public function a_job_has_applications()
+    {
+        $job = create('App\Job');
+        create('App\Application', ['job_id' => $job->id]);
+
+        $this->assertInstanceOf('App\Application', $job->applications->first());
+    }
 }

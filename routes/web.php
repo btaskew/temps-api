@@ -24,4 +24,6 @@ $router->post('/logout', 'UsersController@logout');
 
 $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->post('/jobs', ['middleware' => 'staff', 'uses' => 'JobsController@store']);
+
+    $router->post('/jobs/apply/{job}', 'ApplicationsController@store');
 });

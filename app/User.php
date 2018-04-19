@@ -71,6 +71,16 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     }
 
     /**
+     * A User has many Applications
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function applications()
+    {
+        return $this->hasMany(Application::class);
+    }
+
+    /**
      * Creates an ActiveUser instance for the current user
      */
     public function setActive()

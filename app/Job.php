@@ -12,12 +12,30 @@ class Job extends Model
     protected $guarded = [];
 
     /**
-     * A job belongs to a user
+     * A Job belongs to a User
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function owner()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * A Bob has many Applications
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function applications()
+    {
+        return $this->hasMany(Application::class);
+    }
+
+    public function apply(User $user)
+    {
+        return $this->applications()->create([
+            'job_id' => $this->id,
+            'user_id' => $user->id
+        ]);
     }
 }
