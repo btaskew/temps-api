@@ -1,6 +1,6 @@
 <?php
 
-class JobsQueryTest extends TestCase
+class ViewJobsTest extends TestCase
 {
     /** @test */
     public function can_query_for_all_jobs()
@@ -22,6 +22,21 @@ class JobsQueryTest extends TestCase
         $otherJob = create('App\Job');
 
         $this->get("/jobs/$job->id")
+            ->seeJsonContains([
+                'title' => $job->title
+            ])->dontSeeJson([
+                'title' => $otherJob->title
+            ]);
+    }
+
+    /** @test */
+    public function can_query_for_a_specific_users_job()
+    {
+        $user = create('App\User', ['role_id' => 1]);
+        $job = create('App\Job', ['user_id' => $user->id]);
+        $otherJob = create('App\Job');
+
+        $this->get("/profiles/$user->id/jobs")
             ->seeJsonContains([
                 'title' => $job->title
             ])->dontSeeJson([

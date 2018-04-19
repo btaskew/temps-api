@@ -21,14 +21,20 @@ class JobsController extends Controller
     /**
      * Return single job by ID
      *
-     * @param string $id
+     * @param Job $job
      * @return Job
      */
-    public function show(string $id)
+    public function show(Job $job)
     {
-        return Job::findOrFail($id);
+        return $job;
     }
 
+    /**
+     * Create a new job
+     *
+     * @param Request $request
+     * @return Job
+     */
     public function store(Request $request)
     {
         $this->validate($request, [
