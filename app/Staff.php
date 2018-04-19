@@ -14,13 +14,13 @@ class Staff extends Model
     public $timestamps = false;
 
     /**
-     * A Worker has a User
+     * A Staff has a User
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function user()
     {
-        return $this->hasOne(User::class);
+        return $this->hasOne(User::class, 'id');
     }
 
     /**

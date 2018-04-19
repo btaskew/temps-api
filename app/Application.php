@@ -16,9 +16,9 @@ class Application extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function worker()
+    public function owner()
     {
-        return $this->belongsTo(Worker::class);
+        return $this->belongsTo(Worker::class, 'worker_id');
     }
 
     /**

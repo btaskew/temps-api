@@ -31,13 +31,4 @@ class UserTest extends TestCase
 
         $this->assertInstanceOf('App\ActiveUser', $user->activeUser);
     }
-
-    /** @test */
-    public function a_user_has_a_role()
-    {
-        $role = create('App\Role');
-        $user = create('App\User', ['role_id' => $role->id]);
-
-        $this->assertInstanceOf('App\Role', $user->role);
-    }
 }

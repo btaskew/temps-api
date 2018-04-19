@@ -23,10 +23,12 @@ $router->post('/logout', 'UsersController@logout');
 $router->get('/jobs', 'JobsController@index');
 $router->get('/jobs/{job}', 'JobsController@show');
 
-$router->get('/profiles/{user}/jobs', 'ProfilesController@showJobs');
+$router->get('/profiles/{staff}/jobs', 'ProfilesController@showJobs');
 
 $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->post('/jobs', ['middleware' => 'staff', 'uses' => 'JobsController@store']);
 
-    $router->post('/jobs/apply/{job}', 'ApplicationsController@store');
+    $router->post('/jobs/apply/{job}',
+        ['middleware' => 'worker', 'uses' => 'ApplicationsController@store']
+    );
 });

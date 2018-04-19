@@ -6,7 +6,7 @@ class StaffTest extends TestCase
     public function a_staff_has_jobs()
     {
         $staff = create('App\Staff');
-        create('App\Job', ['user_id' => $staff->id]);
+        create('App\Job', ['staff_id' => $staff->id]);
 
         $this->assertInstanceOf('App\Job', $staff->jobs->first());
     }

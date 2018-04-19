@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
+use App\Staff;
 
 class ProfilesController extends Controller
 {
     /**
      * Show the user's jobs
      *
-     * @param User $user
+     * @param Staff $staff
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function showJobs(User $user)
+    public function showJobs(Staff $staff)
     {
-        return $user->jobs;
+        return $staff->jobs;
     }
 }

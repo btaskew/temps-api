@@ -45,7 +45,7 @@ class JobsController extends Controller
         return Job::create([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
-            'user_id' => Auth::id()
+            'staff_id' => Auth::id()
         ]);
     }
 }

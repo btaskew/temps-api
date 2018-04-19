@@ -65,7 +65,8 @@ $app->singleton(
 
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
-    'staff' => App\Http\Middleware\StaffMiddleware::class
+    'staff' => App\Http\Middleware\StaffMiddleware::class,
+    'worker' => App\Http\Middleware\WorkerMiddleware::class
 ]);
 
 /*

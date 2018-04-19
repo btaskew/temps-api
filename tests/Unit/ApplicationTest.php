@@ -3,11 +3,11 @@
 class ApplicationTest extends TestCase
 {
     /** @test */
-    public function an_application_belongs_to_a_user()
+    public function an_application_belongs_to_a_worker()
     {
         $application = create('App\Application');
 
-        $this->assertInstanceOf('App\User', $application->user);
+        $this->assertInstanceOf('App\Worker', $application->owner);
     }
 
     /** @test */

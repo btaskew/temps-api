@@ -3,14 +3,14 @@
 class CreateApplicationTest extends TestCase
 {
     /** @test */
-    public function any_active_user_can_apply_to_a_job()
+    public function an_active_worker_can_apply_to_a_job()
     {
-        $job = create('App\Job');
-        $user = setActiveWorker();
+        $job = create('App\Job', ['staff_id' => '1']);
+        $worker = setActiveWorker();
 
-        $this->post("/jobs/apply/$job->id", ['token' => $user->activeUser->token])
+        $this->post("/jobs/apply/$job->id", ['token' => $worker->user->activeUser->token])
             ->seeInDatabase('applications', [
-                'user_id' => $user->id,
+                'worker_id' => $worker->id,
                 'job_id' => $job->id
             ]);
     }
@@ -21,6 +21,17 @@ class CreateApplicationTest extends TestCase
         $job = create('App\Job');
 
         $this->post("/jobs/apply/$job->id")
+            ->assertResponseStatus(401);
+    }
+
+
+    /** @test */
+    public function an_active_staff_user_cannot_apply_to_a_job()
+    {
+        $job = create('App\Job');
+        $staff = setActiveStaff();
+
+        $this->post("/jobs/apply/$job->id", ['token' => $staff->user->activeUser->token])
             ->assertResponseStatus(401);
     }
 }

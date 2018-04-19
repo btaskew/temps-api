@@ -40,7 +40,7 @@ class Job extends Model
     public function apply(User $user)
     {
         return $this->applications()->create([
-            'user_id' => $user->id
+            'worker_id' => $user->id
         ]);
     }
 }

@@ -12,6 +12,6 @@ class ModelServiceProvider extends RouteBindingServiceProvider
     public function boot()
     {
         $this->binder->bind('job', 'App\Job');
-        $this->binder->bind('user', 'App\User');
+        $this->binder->bind('staff', 'App\Staff');
     }
 }

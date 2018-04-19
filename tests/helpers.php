@@ -35,19 +35,22 @@ function raw($class, $attributes = [], $count = null)
 
 /**
  * @param array $attributes
- * @return App\User
+ * @return App\Staff
  */
 function setActiveStaff($attributes = [])
 {
-    return factory('App\Staff')->create($attributes)->setActive()->user;
+    $staff = factory('App\Staff')->create($attributes);
+    $staff->user->setActive();
+    return $staff;
 }
 
 /**
  * @param array $attributes
- * @return App\User
+ * @return App\Worker
  */
 function setActiveWorker($attributes = [])
 {
-    $attributes['role_id'] = 2;
-    return factory('App\User')->create($attributes)->setActive()->user;
+    $worker = factory('App\Worker')->create($attributes);
+    $worker->user->setActive();
+    return $worker;
 }

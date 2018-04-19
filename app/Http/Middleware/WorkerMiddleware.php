@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class StaffMiddleware
+class WorkerMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,8 +16,8 @@ class StaffMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (!$this->userIsStaff(Auth::user())) {
-            return response()->json(['error' => 'Only staff can access this endpoint'], 401);
+        if (!$this->userIsWorker(Auth::user())) {
+            return response()->json(['error' => 'Only workers can access this endpoint'], 401);
         }
 
         return $next($request);
@@ -27,8 +27,8 @@ class StaffMiddleware
      * @param \App\User $user
      * @return bool
      */
-    private function userIsStaff($user)
+    private function userIsWorker($user)
     {
-        return $user->staff()->exists();
+        return $user->worker()->exists();
     }
 }
