@@ -8,7 +8,7 @@ class CreateApplicationTest extends TestCase
         $job = create('App\Job', ['staff_id' => '1']);
         $worker = setActiveWorker();
 
-        $this->post("/jobs/apply/$job->id", ['token' => $worker->user->activeUser->token])
+        $this->post("/jobs/$job->id/apply", ['token' => $worker->user->activeUser->token])
             ->seeInDatabase('applications', [
                 'worker_id' => $worker->id,
                 'job_id' => $job->id
@@ -22,7 +22,7 @@ class CreateApplicationTest extends TestCase
 
         $job = create('App\Job');
 
-        $this->post("/jobs/apply/$job->id")
+        $this->post("/jobs/$job->id/apply")
             ->assertResponseStatus(401);
     }
 
@@ -35,7 +35,7 @@ class CreateApplicationTest extends TestCase
         $job = create('App\Job');
         $staff = setActiveStaff();
 
-        $this->post("/jobs/apply/$job->id", ['token' => $staff->user->activeUser->token])
+        $this->post("/jobs/$job->id/apply", ['token' => $staff->user->activeUser->token])
             ->assertResponseStatus(403);
     }
 }

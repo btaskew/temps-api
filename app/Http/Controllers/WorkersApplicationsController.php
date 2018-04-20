@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Application;
+use App\Job;
 use Illuminate\Support\Facades\Auth;
 
 class WorkersApplicationsController extends Controller
@@ -26,5 +27,16 @@ class WorkersApplicationsController extends Controller
     public function show(Application $application)
     {
         return $application;
+    }
+
+    /**
+     * Create an application
+     *
+     * @param Job $job
+     * @return \App\Application
+     */
+    public function store(Job $job)
+    {
+        return $job->apply(Auth::user());
     }
 }
