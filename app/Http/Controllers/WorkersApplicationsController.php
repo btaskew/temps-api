@@ -37,6 +37,6 @@ class WorkersApplicationsController extends Controller
      */
     public function store(Job $job)
     {
-        return $job->apply(Auth::user());
+        return $job->apply(Auth::user()->worker);
     }
 }
