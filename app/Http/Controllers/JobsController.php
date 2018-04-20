@@ -11,10 +11,18 @@ class JobsController extends Controller
     /**
      * Return all jobs
      *
+     * @param Request $request
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->has('tags')) {
+            return Job::query()
+                ->join('tags', 'jobs.id', '=', 'tags.job_id')
+                ->where('tags.tag', 'like', $request->input('tags'))
+                ->get();
+        }
+
         return Job::all();
     }
 
