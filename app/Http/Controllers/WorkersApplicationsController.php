@@ -11,11 +11,11 @@ class WorkersApplicationsController extends Controller
     /**
      * Return all of the authenticated worker's applications
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        return Auth::user()->worker->applications;
+        return $this->respond(Auth::user()->worker->applications);
     }
 
     /**

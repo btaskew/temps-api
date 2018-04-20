@@ -24,7 +24,7 @@ abstract class TestCase extends Laravel\Lumen\Testing\TestCase
         return require __DIR__.'/../bootstrap/app.php';
     }
 
-    protected function disableExceptionHandling()
+    private function disableExceptionHandling()
     {
         $this->oldExceptionHandler = $this->app->make(ExceptionHandler::class);
         $this->app->instance(ExceptionHandler::class, new class extends Handler {

@@ -30,4 +30,14 @@ class Application extends Model
     {
         return $this->belongsTo(Job::class);
     }
+
+    /**
+     * Determines if application has been approved
+     *
+     * @return bool
+     */
+    public function isApproved()
+    {
+        return $this->id == $this->job->approved_application_id;
+    }
 }

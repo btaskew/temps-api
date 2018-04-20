@@ -17,4 +17,17 @@ class ApplicationTest extends TestCase
 
         $this->assertInstanceOf('App\Job', $application->job);
     }
+
+    /** @test */
+    public function an_application_knows_if_it_is_approved()
+    {
+        $job = create('App\Job');
+        $application = create('App\Application', ['job_id' => $job->id]);
+
+        $this->assertFalse($application->isApproved());
+
+        $job->update(['approved_application_id' => $application->id]);
+
+        $this->assertTrue($application->fresh()->isApproved());
+    }
 }

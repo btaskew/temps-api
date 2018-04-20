@@ -45,10 +45,9 @@ function setActiveStaff()
 }
 
 /**
- * @param array $attributes
  * @return App\Worker
  */
-function setActiveWorker($attributes = [])
+function setActiveWorker()
 {
     $user = create('App\User');
     $worker = create('App\Worker', ['user_id' => $user->id]);
