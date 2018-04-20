@@ -2,7 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\User;
 use Closure;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class StaffMiddleware
@@ -14,7 +16,7 @@ class StaffMiddleware
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         if (!$this->userIsStaff(Auth::user())) {
             return response()->json(['error' => 'Only staff can access this endpoint'], 403);
@@ -24,10 +26,12 @@ class StaffMiddleware
     }
 
     /**
+     * Determine if user is staff
+     *
      * @param \App\User $user
      * @return bool
      */
-    private function userIsStaff($user)
+    private function userIsStaff(User $user)
     {
         return $user->staff()->exists();
     }

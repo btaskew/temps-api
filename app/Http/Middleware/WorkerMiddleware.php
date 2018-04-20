@@ -2,7 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\User;
 use Closure;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class WorkerMiddleware
@@ -14,7 +16,7 @@ class WorkerMiddleware
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         if (!$this->userIsWorker(Auth::user())) {
             return response()->json(['error' => 'Only workers can access this endpoint'], 403);
@@ -24,10 +26,12 @@ class WorkerMiddleware
     }
 
     /**
+     * Determine if use is a worker
+     *
      * @param \App\User $user
      * @return bool
      */
-    private function userIsWorker($user)
+    private function userIsWorker(User $user)
     {
         return $user->worker()->exists();
     }

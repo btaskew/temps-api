@@ -23,6 +23,8 @@ class Controller extends BaseController
     }
 
     /**
+     * Creates a new User
+     *
      * @param Request $request
      * @return User
      */
@@ -38,6 +40,8 @@ class Controller extends BaseController
     }
 
     /**
+     * Validate input for signup and determine if user already exists
+     *
      * @param Request $request
      * @throws ConflictHttpException
      */

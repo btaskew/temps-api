@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 class AuthServiceProvider extends ServiceProvider
 {
     /**
-     * Boot the authentication services for the application.
+     * Validates provided token for authenticated routes
      *
      * @return \App\User
      * @throws UnauthorizedHttpException
@@ -35,6 +35,9 @@ class AuthServiceProvider extends ServiceProvider
         });
     }
 
+    /**
+     * Sets permissions on model actions
+     */
     private function setPermissions()
     {
         Gate::define('delete-job', function ($staff, $job) {
@@ -43,6 +46,8 @@ class AuthServiceProvider extends ServiceProvider
     }
 
     /**
+     * Returns ActiveUser by token
+     *
      * @param string $token
      * @return \App\User
      */

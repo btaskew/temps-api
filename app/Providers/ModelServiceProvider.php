@@ -7,7 +7,7 @@ use mmghv\LumenRouteBinding\RouteBindingServiceProvider;
 class ModelServiceProvider extends RouteBindingServiceProvider
 {
     /**
-     * Boot the authentication services for the application.
+     * Binds models into the container for route model binding
      */
     public function boot()
     {
