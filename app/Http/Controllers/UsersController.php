@@ -12,7 +12,7 @@ class UsersController extends Controller
      * Login an existing user
      *
      * @param Request $request
-     * @return \App\ActiveUser|\Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function login(Request $request)
     {
@@ -27,7 +27,7 @@ class UsersController extends Controller
             return $this->respondError('Invalid credentials', 401);
         }
 
-        return $user->setActive();
+        return $this->respond($user->setActive());
     }
 
     /**

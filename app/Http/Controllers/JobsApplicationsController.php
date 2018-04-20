@@ -11,11 +11,11 @@ class JobsApplicationsController extends Controller
      * Return a given jobs application
      *
      * @param Job $job
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(Job $job)
     {
-        return $job->applications;
+        return $this->respond($job->applications);
     }
 
     /**
@@ -23,10 +23,10 @@ class JobsApplicationsController extends Controller
      *
      * @param Job         $job
      * @param Application $application
-     * @return Application
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Job $job, Application $application)
     {
-        return $application;
+        return $this->respond($application);
     }
 }

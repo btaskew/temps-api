@@ -12,36 +12,38 @@ class JobsController extends Controller
      * Return all jobs
      *
      * @param Request $request
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
         if ($request->has('tags')) {
-            return Job::query()
-                ->join('tags', 'jobs.id', '=', 'tags.job_id')
-                ->filterByTags($request->input('tags'))
-                ->get();
+            return $this->respond(
+                Job::query()
+                    ->join('tags', 'jobs.id', '=', 'tags.job_id')
+                    ->filterByTags($request->input('tags'))
+                    ->get()
+            );
         }
 
-        return Job::all();
+        return $this->respond(Job::all());
     }
 
     /**
      * Return single job by ID
      *
      * @param Job $job
-     * @return Job
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Job $job)
     {
-        return $job;
+        return $this->respond($job);
     }
 
     /**
      * Create a new job
      *
      * @param Request $request
-     * @return Job
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -59,7 +61,7 @@ class JobsController extends Controller
 
         $job->saveTags($request->input('tags'));
 
-        return $job;
+        return $this->respond($job);
     }
 
     /**

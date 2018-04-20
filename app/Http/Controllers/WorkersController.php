@@ -10,7 +10,7 @@ class WorkersController extends Controller
      * Signup a new worker user
      *
      * @param Request $request
-     * @return \App\ActiveUser|\Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -18,6 +18,6 @@ class WorkersController extends Controller
 
         $user->worker()->create();
 
-        return $user->setActive();
+        return $this->respond($user->setActive());
     }
 }

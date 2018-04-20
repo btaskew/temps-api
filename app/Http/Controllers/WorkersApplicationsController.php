@@ -22,21 +22,23 @@ class WorkersApplicationsController extends Controller
      * Return a specific application
      *
      * @param Application $application
-     * @return Application
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Application $application)
     {
-        return $application;
+        return $this->respond($application);
     }
 
     /**
      * Create an application
      *
      * @param Job $job
-     * @return \App\Application
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Job $job)
     {
-        return $job->apply(Auth::user()->worker);
+        return $this->respond(
+            $job->apply(Auth::user()->worker)
+        );
     }
 }

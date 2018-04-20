@@ -11,6 +11,17 @@ use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 class Controller extends BaseController
 {
     /**
+     * Return data in standard response
+     *
+     * @param $data
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function respond($data)
+    {
+        return response()->json(['data' => $data]);
+    }
+
+    /**
      * Return an error response to the user
      *
      * @param string $message

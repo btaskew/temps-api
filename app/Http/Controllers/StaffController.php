@@ -18,6 +18,6 @@ class StaffController extends Controller
 
         $user->staff()->create();
 
-        return $user->setActive();
+        return $this->respond($user->setActive());
     }
 }

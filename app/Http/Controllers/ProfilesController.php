@@ -10,10 +10,10 @@ class ProfilesController extends Controller
      * Show the user's jobs
      *
      * @param Staff $staff
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Http\JsonResponse
      */
     public function showJobs(Staff $staff)
     {
-        return $staff->jobs;
+        return $this->respond($staff->jobs);
     }
 }
