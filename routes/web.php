@@ -34,6 +34,11 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
         $router->delete('/jobs/{job}', 'JobsController@destroy');
     });
 
+    $router->group(['middleware' => 'worker'], function () use ($router) {
+        $router->get('/profiles/applications', 'WorkersApplicationsController@index');
+        $router->get('/profiles/applications/{application}', 'WorkersApplicationsController@show');
+    });
+
     $router->post('/jobs/apply/{job}',
         ['middleware' => 'worker', 'uses' => 'ApplicationsController@store']
     );

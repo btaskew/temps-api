@@ -39,8 +39,9 @@ function raw($class, $attributes = [], $count = null)
  */
 function setActiveStaff($attributes = [])
 {
-    $staff = factory('App\Staff')->create($attributes);
-    $staff->user->setActive();
+    $user = factory('App\User')->create();
+    $staff = $user->staff()->create($attributes);
+    $user->setActive();
     return $staff;
 }
 
@@ -50,7 +51,8 @@ function setActiveStaff($attributes = [])
  */
 function setActiveWorker($attributes = [])
 {
-    $worker = factory('App\Worker')->create($attributes);
-    $worker->user->setActive();
+    $user = factory('App\User')->create();
+    $worker = $user->worker()->create($attributes);
+    $user->setActive();
     return $worker;
 }
