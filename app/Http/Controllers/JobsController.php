@@ -19,7 +19,7 @@ class JobsController extends Controller
         if ($request->has('tags')) {
             return Job::query()
                 ->join('tags', 'jobs.id', '=', 'tags.job_id')
-                ->where('tags.tag', 'like', $request->input('tags'))
+                ->filterByTags($request->input('tags'))
                 ->get();
         }
 

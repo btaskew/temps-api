@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Job extends Model
 {
@@ -42,6 +43,24 @@ class Job extends Model
     }
 
     /**
+     * Append to query for each tag
+     *
+     * @param Builder  $query
+     * @param string   $tags
+     * @return Builder|static
+     */
+    public function scopeFilterByTags(Builder $query, string $tags)
+    {
+        $tagsArray = explode(',', $tags);
+
+        foreach ($tagsArray as $tag) {
+            $query->orWhere('tags.tag', '=', filter_var($tag, FILTER_SANITIZE_STRING));
+        }
+
+        return $query;
+    }
+
+    /**
      * Create a new application for this job
      *
      * @param Worker $worker
@@ -54,6 +73,11 @@ class Job extends Model
         ]);
     }
 
+    /**
+     * Save associated tags
+     *
+     * @param array $tags
+     */
     public function saveTags(array $tags)
     {
         foreach ($tags as $tag) {

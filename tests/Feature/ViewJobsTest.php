@@ -42,6 +42,21 @@ class ViewJobsTest extends TestCase
     }
 
     /** @test */
+    public function can_query_for_jobs_by_multiple_tags()
+    {
+        $job = create('App\Job');
+        $job->saveTags(['foo']);
+        $secondJob = create('App\Job');
+        $secondJob->saveTags(['bar']);
+        $jobWithNoTags = create('App\Job');
+
+        $this->get('/jobs?tags=foo,bar')
+            ->seeJsonContains($job->getAttributes())
+            ->seeJsonContains($secondJob->getAttributes())
+            ->dontSeeJson(['title' => $jobWithNoTags->title]);
+    }
+
+    /** @test */
     public function can_query_for_a_specific_users_job()
     {
         $staff = create('App\Staff');
