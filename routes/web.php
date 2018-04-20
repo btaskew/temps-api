@@ -12,7 +12,9 @@
 */
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    $user = factory('App\User')->create();
+    $worker = $user->worker()->create();
+    return $worker->user->getAttributes();
 });
 
 $router->post('/signup/staff', 'StaffController@store');
@@ -26,7 +28,11 @@ $router->get('/jobs/{job}', 'JobsController@show');
 $router->get('/profiles/{staff}/jobs', 'ProfilesController@showJobs');
 
 $router->group(['middleware' => 'auth'], function () use ($router) {
-    $router->post('/jobs', ['middleware' => 'staff', 'uses' => 'JobsController@store']);
+
+    $router->group(['middleware' => 'staff'], function () use ($router) {
+        $router->post('/jobs', 'JobsController@store');
+        $router->delete('/jobs/{job}', 'JobsController@destroy');
+    });
 
     $router->post('/jobs/apply/{job}',
         ['middleware' => 'worker', 'uses' => 'ApplicationsController@store']

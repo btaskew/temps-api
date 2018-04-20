@@ -48,4 +48,18 @@ class JobsController extends Controller
             'staff_id' => Auth::id()
         ]);
     }
+
+    /**
+     * Delete the given job
+     *
+     * @param Job $job
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(Job $job)
+    {
+        $this->authorize('delete-job', $job);
+
+        $job->delete();
+        return response()->json(['success' => 'Job has been deleted']);
+    }
 }

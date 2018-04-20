@@ -17,7 +17,7 @@ class WorkerMiddleware
     public function handle($request, Closure $next)
     {
         if (!$this->userIsWorker(Auth::user())) {
-            return response()->json(['error' => 'Only workers can access this endpoint'], 401);
+            return response()->json(['error' => 'Only workers can access this endpoint'], 403);
         }
 
         return $next($request);

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\ActiveUser;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\ServiceProvider;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
@@ -17,6 +18,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->setPermissions();
+
         $this->app['auth']->viaRequest('api', function ($request) {
             if (!$request->has('token')) {
                 throw new UnauthorizedHttpException('unauthorised', 'Valid token not provided');
@@ -32,6 +35,13 @@ class AuthServiceProvider extends ServiceProvider
         });
     }
 
+    private function setPermissions()
+    {
+        Gate::define('delete-job', function ($staff, $job) {
+            return $staff->id === $job->staff_id;
+        });
+    }
+
     /**
      * @param string $token
      * @return \App\User
@@ -41,4 +51,5 @@ class AuthServiceProvider extends ServiceProvider
         $activeUser = ActiveUser::where('token', $token)->firstOrFail();
         return $activeUser->user;
     }
+
 }

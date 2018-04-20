@@ -32,6 +32,6 @@ class CreateApplicationTest extends TestCase
         $staff = setActiveStaff();
 
         $this->post("/jobs/apply/$job->id", ['token' => $staff->user->activeUser->token])
-            ->assertResponseStatus(401);
+            ->assertResponseStatus(403);
     }
 }

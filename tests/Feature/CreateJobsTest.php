@@ -34,7 +34,7 @@ class CreateJobsTest extends TestCase
         $job = raw('App\Job');
 
         $this->post('/jobs?token=' . $worker->user->activeUser->token, $job)
-            ->assertResponseStatus(401);
+            ->assertResponseStatus(403);
     }
 
     /** @test */
@@ -53,5 +53,46 @@ class CreateJobsTest extends TestCase
 
         $this->post('/jobs?token=' . $staff->user->activeUser->token, ['title' => 'Test job'])
             ->assertResponseStatus(422);
+    }
+
+    /** @test */
+    public function a_jobs_owner_can_delete_their_job()
+    {
+        $staff = setActiveStaff();
+
+        $job = factory('App\Job')->create([
+            'staff_id' => $staff->id
+        ]);
+
+        $this->delete('/jobs/' . $job->id, ['token' => $staff->user->activeUser->token])
+            ->notSeeInDatabase('jobs', $job->getAttributes());
+    }
+
+    /** @test */
+    public function a_staff_user_cant_delete_another_users_job()
+    {
+        $staff = create('App\Staff');
+
+        $job = factory('App\Job')->create([
+            'staff_id' => $staff->id
+        ]);
+
+        $otherStaff = setActiveStaff();
+
+        $this->delete('/jobs/' . $job->id, ['token' => $otherStaff->user->activeUser->token])
+            ->assertResponseStatus(403);
+    }
+
+    /** @test */
+    public function a_worker_cannot_delete_a_job()
+    {
+        $job = factory('App\Job')->create([
+            'staff_id' => '1'
+        ]);
+
+        $worker = setActiveWorker();
+
+        $this->delete('/jobs/' . $job->id, ['token' => $worker->user->activeUser->token])
+            ->assertResponseStatus(403);
     }
 }
