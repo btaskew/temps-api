@@ -86,7 +86,7 @@ class CreateJobsTest extends TestCase
     {
         $staff = setActiveStaff();
 
-        $job = $staff->jobs()->create();
+        $job = create('App\Job', ['staff_id' => $staff->id]);
 
         $this->delete('/jobs/' . $job->id, ['token' => $staff->user->activeUser->token])
             ->notSeeInDatabase('jobs', $job->getAttributes());
@@ -98,7 +98,7 @@ class CreateJobsTest extends TestCase
         $this->withExceptionHandling();
 
         $staff = create('App\Staff');
-        $job = $staff->jobs()->create();
+        $job = create('App\Job', ['staff_id' => $staff->id]);
 
         $otherStaff = setActiveStaff();
 

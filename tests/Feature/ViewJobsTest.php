@@ -37,7 +37,7 @@ class ViewJobsTest extends TestCase
         $jobWithNoTags = create('App\Job');
 
         $this->get('/jobs?tags=foo')
-            ->seeJsonContains($job->getAttributes())
+            ->seeJsonContains(['title' => $job->title])
             ->dontSeeJson(['title' => $jobWithNoTags->title]);
     }
 
@@ -51,8 +51,8 @@ class ViewJobsTest extends TestCase
         $jobWithNoTags = create('App\Job');
 
         $this->get('/jobs?tags=foo,bar')
-            ->seeJsonContains($job->getAttributes())
-            ->seeJsonContains($secondJob->getAttributes())
+            ->seeJsonContains(['title' => $job->title])
+            ->seeJsonContains(['title' => $secondJob->title])
             ->dontSeeJson(['title' => $jobWithNoTags->title]);
     }
 

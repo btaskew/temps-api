@@ -6,7 +6,7 @@ class ViewApplicationsTest extends TestCase
     public function a_worker_can_view_their_applications()
     {
         $worker = setActiveWorker();
-        $worker->applications()->create();
+        create('App\Application', ['worker_id' => $worker->id]);
 
         $this->get('/profiles/applications?token=' . $worker->user->activeUser->token)
             ->seeJsonContains($worker->applications->toArray());
@@ -16,8 +16,7 @@ class ViewApplicationsTest extends TestCase
     public function a_worker_can_view_a_specific_application()
     {
         $worker = setActiveWorker();
-        $worker->applications()->create();
-        $application = $worker->applications()->first();
+        $application = create('App\Application', ['worker_id' => $worker->id]);
 
         $this->get("/profiles/applications/$application->id?token=" . $worker->user->activeUser->token)
             ->seeJsonContains($worker->applications()->first()->toArray());
@@ -27,22 +26,21 @@ class ViewApplicationsTest extends TestCase
     public function a_staff_user_can_view_all_applications_for_a_specific_job()
     {
         $staff = setActiveStaff();
-        $job = $staff->jobs()->create();
-        $job->applications()->create();
+        $job = create('App\Job', ['staff_id' => $staff->id]);
+        create('App\Application', ['job_id' => $job->id]);
 
         $this->get("/jobs/$job->id/applications?token=" . $staff->user->activeUser->token)
             ->seeJsonContains($job->applications->toArray());
-
     }
 
     /** @test */
     public function a_staff_can_view_a_specific_application()
     {
         $staff = setActiveStaff();
-        $job = $staff->jobs()->create();
-        $application = $job->applications()->create();
+        $job = create('App\Job', ['staff_id' => $staff->id]);
+        $application = create('App\Application', ['job_id' => $job->id]);
 
         $this->get("/jobs/$job->id/applications/$application->id?token=" . $staff->user->activeUser->token)
-            ->seeJsonContains($application->toArray());
+            ->seeJsonContains(['id' => $application->id]);
     }
 }
