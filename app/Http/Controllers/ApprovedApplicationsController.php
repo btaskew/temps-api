@@ -7,6 +7,13 @@ use App\Job;
 
 class ApprovedApplicationsController extends Controller
 {
+    /**
+     * Mark an application as approved
+     *
+     * @param Job         $job
+     * @param Application $application
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Job $job, Application $application)
     {
         $this->authorize('approve-application', $job);

@@ -8,9 +8,8 @@ class CreateJobsTest extends TestCase
         $staff = setActiveStaff();
 
         $job = factory('App\Job')->raw([
-            'staff_id' => $staff->id
+            'tags' => ['foo', 'bar']
         ]);
-        $job['tags'] = ['foo', 'bar'];
 
         $this->post('/jobs?token=' . $staff->user->activeUser->token, $job)
             ->seeInDatabase('jobs', [
@@ -25,7 +24,6 @@ class CreateJobsTest extends TestCase
         $staff = setActiveStaff();
 
         $job = factory('App\Job')->raw([
-            'staff_id' => $staff->id,
             'tags' => ['foo', 'bar']
         ]);
 
@@ -66,7 +64,7 @@ class CreateJobsTest extends TestCase
 
         $staff = setActiveStaff();
 
-        $this->post('/jobs?token=' . $staff->user->activeUser->token, ['description' => 'Test job'])
+        $this->post('/jobs', ['description' => 'Test job', 'token' => $staff->user->activeUser->token])
             ->assertResponseStatus(422);
     }
 
@@ -77,7 +75,7 @@ class CreateJobsTest extends TestCase
 
         $staff = setActiveStaff();
 
-        $this->post('/jobs?token=' . $staff->user->activeUser->token, ['title' => 'Test job'])
+        $this->post('/jobs', ['title' => 'Test job', 'token' => $staff->user->activeUser->token])
             ->assertResponseStatus(422);
     }
 
@@ -88,7 +86,7 @@ class CreateJobsTest extends TestCase
 
         $job = create('App\Job', ['staff_id' => $staff->id]);
 
-        $this->delete('/jobs/' . $job->id, ['token' => $staff->user->activeUser->token])
+        $this->delete("/jobs/$job->id", ['token' => $staff->user->activeUser->token])
             ->notSeeInDatabase('jobs', $job->getAttributes());
     }
 
@@ -102,7 +100,7 @@ class CreateJobsTest extends TestCase
 
         $otherStaff = setActiveStaff();
 
-        $this->delete('/jobs/' . $job->id, ['token' => $otherStaff->user->activeUser->token])
+        $this->delete("/jobs/$job->id", ['token' => $otherStaff->user->activeUser->token])
             ->assertResponseStatus(403);
     }
 
@@ -117,7 +115,7 @@ class CreateJobsTest extends TestCase
 
         $worker = setActiveWorker();
 
-        $this->delete('/jobs/' . $job->id, ['token' => $worker->user->activeUser->token])
+        $this->delete("/jobs/$job->id", ['token' => $worker->user->activeUser->token])
             ->assertResponseStatus(403);
     }
 }

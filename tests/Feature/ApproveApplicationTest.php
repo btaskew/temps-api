@@ -28,6 +28,8 @@ class ApproveApplicationTest extends TestCase
         $this->post(
             "/jobs/$job->id/applications/$application->id/approve?token=" . $staff->user->activeUser->token
         )->assertResponseStatus(403);
+
+        $this->assertFalse($application->isApproved());
     }
 
     /** @test */
@@ -42,5 +44,7 @@ class ApproveApplicationTest extends TestCase
         $this->post(
             "/jobs/$job->id/applications/$application->id/approve?token=" . $worker->user->activeUser->token
         )->assertResponseStatus(403);
+
+        $this->assertFalse($application->isApproved());
     }
 }
