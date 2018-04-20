@@ -27,4 +27,17 @@ class JobTest extends TestCase
 
         $this->assertInstanceOf('App\Tag', $job->tags->first());
     }
+
+    /** @test */
+    public function a_job_can_save_tags()
+    {
+        $job = create('App\Job');
+        $tags = ['foo', 'bar', 'bat'];
+
+        $job->saveTags($tags);
+
+        $this->assertTrue($job->tags->contains('tag', 'foo'));
+        $this->assertTrue($job->tags->contains('tag', 'bar'));
+        $this->assertTrue($job->tags->contains('tag', 'bat'));
+    }
 }

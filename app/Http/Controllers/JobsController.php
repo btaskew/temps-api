@@ -39,14 +39,19 @@ class JobsController extends Controller
     {
         $this->validate($request, [
             'title' => 'string|required',
-            'description' => 'string|required'
+            'description' => 'string|required',
+            'tags' => 'array|required'
         ]);
 
-        return Job::create([
+        $job = Job::create([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
             'staff_id' => Auth::id()
         ]);
+
+        $job->saveTags($request->input('tags'));
+
+        return $job;
     }
 
     /**

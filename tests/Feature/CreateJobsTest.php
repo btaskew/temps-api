@@ -10,9 +10,27 @@ class CreateJobsTest extends TestCase
         $job = factory('App\Job')->raw([
             'staff_id' => $staff->id
         ]);
+        $job['tags'] = ['foo', 'bar'];
 
         $this->post('/jobs?token=' . $staff->user->activeUser->token, $job)
-            ->seeInDatabase('jobs', $job);
+            ->seeInDatabase('jobs', [
+                'title' => $job['title'],
+                'description' => $job['description']
+            ]);
+    }
+
+    /** @test */
+    public function creating_a_job_saves_jobs_tags()
+    {
+        $staff = setActiveStaff();
+
+        $job = factory('App\Job')->raw([
+            'staff_id' => $staff->id,
+            'tags' => ['foo', 'bar']
+        ]);
+
+        $this->post('/jobs?token=' . $staff->user->activeUser->token, $job)
+            ->seeInDatabase('tags', ['tag' => 'foo', 'tag' => 'bar']);
     }
 
     /** @test */

@@ -53,4 +53,11 @@ class Job extends Model
             'worker_id' => $worker->id
         ]);
     }
+
+    public function saveTags(array $tags)
+    {
+        foreach ($tags as $tag) {
+            $this->tags()->create(['tag' => $tag]);
+        }
+    }
 }
