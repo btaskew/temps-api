@@ -18,6 +18,8 @@ class CreateApplicationTest extends TestCase
     /** @test */
     public function an_inactive_user_cannot_apply_to_a_job()
     {
+        $this->withExceptionHandling();
+
         $job = create('App\Job');
 
         $this->post("/jobs/apply/$job->id")
@@ -28,6 +30,8 @@ class CreateApplicationTest extends TestCase
     /** @test */
     public function an_active_staff_user_cannot_apply_to_a_job()
     {
+        $this->withExceptionHandling();
+
         $job = create('App\Job');
         $staff = setActiveStaff();
 

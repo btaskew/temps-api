@@ -18,6 +18,8 @@ class CreateJobsTest extends TestCase
     /** @test */
     public function an_inactive_staff_user_cannot_create_a_job()
     {
+        $this->withExceptionHandling();
+
         create('App\Staff');
 
         $job =factory('App\Job')->raw();
@@ -29,6 +31,8 @@ class CreateJobsTest extends TestCase
     /** @test */
     public function an_active_worker_user_cannot_create_a_job()
     {
+        $this->withExceptionHandling();
+
         $worker = setActiveWorker();
 
         $job = raw('App\Job');
@@ -40,6 +44,8 @@ class CreateJobsTest extends TestCase
     /** @test */
     public function a_job_requires_a_title()
     {
+        $this->withExceptionHandling();
+
         $staff = setActiveStaff();
 
         $this->post('/jobs?token=' . $staff->user->activeUser->token, ['description' => 'Test job'])
@@ -49,6 +55,8 @@ class CreateJobsTest extends TestCase
     /** @test */
     public function a_job_requires_a_description()
     {
+        $this->withExceptionHandling();
+
         $staff = setActiveStaff();
 
         $this->post('/jobs?token=' . $staff->user->activeUser->token, ['title' => 'Test job'])
@@ -60,9 +68,7 @@ class CreateJobsTest extends TestCase
     {
         $staff = setActiveStaff();
 
-        $job = factory('App\Job')->create([
-            'staff_id' => $staff->id
-        ]);
+        $job = $staff->jobs()->create();
 
         $this->delete('/jobs/' . $job->id, ['token' => $staff->user->activeUser->token])
             ->notSeeInDatabase('jobs', $job->getAttributes());
@@ -71,11 +77,10 @@ class CreateJobsTest extends TestCase
     /** @test */
     public function a_staff_user_cant_delete_another_users_job()
     {
-        $staff = create('App\Staff');
+        $this->withExceptionHandling();
 
-        $job = factory('App\Job')->create([
-            'staff_id' => $staff->id
-        ]);
+        $staff = create('App\Staff');
+        $job = $staff->jobs()->create();
 
         $otherStaff = setActiveStaff();
 
@@ -86,6 +91,8 @@ class CreateJobsTest extends TestCase
     /** @test */
     public function a_worker_cannot_delete_a_job()
     {
+        $this->withExceptionHandling();
+
         $job = factory('App\Job')->create([
             'staff_id' => '1'
         ]);

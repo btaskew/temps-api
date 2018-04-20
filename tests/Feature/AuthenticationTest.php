@@ -49,6 +49,8 @@ class AuthenticationTest extends TestCase
     /** @test */
     public function a_signup_requires_an_email()
     {
+        $this->withExceptionHandling();
+
         $userNoEmail = [
             'name' => 'Test user',
             'password' => 'password'
@@ -61,6 +63,8 @@ class AuthenticationTest extends TestCase
     /** @test */
     public function cant_sign_up_a_new_user_with_the_same_email()
     {
+        $this->withExceptionHandling();
+
         $existingUser = create('App\User');
 
         $newUser = raw('App\User', ['email' => $existingUser->email]);
@@ -89,6 +93,8 @@ class AuthenticationTest extends TestCase
     /** @test */
     public function throws_exception_when_logging_in_with_wrong_password()
     {
+        $this->withExceptionHandling();
+
         $user = create('App\User', ['password' => 'foo']);
 
         $this->post('/login', [
@@ -101,6 +107,8 @@ class AuthenticationTest extends TestCase
     /** @test */
     public function throws_exception_when_logging_in_with_wrong_email()
     {
+        $this->withExceptionHandling();
+
         $user = create('App\User', ['email' => 'foo@email.com']);
 
         $this->post('/login', [
