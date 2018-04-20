@@ -62,3 +62,12 @@ $factory->define(App\Application::class, function (Faker\Generator $faker) {
         },
     ];
 });
+
+$factory->define(App\Tag::class, function (Faker\Generator $faker) {
+    return [
+        'tag' => $faker->word,
+        'job_id' => function() {
+            return factory('App\Job')->create()->id;
+        },
+    ];
+});

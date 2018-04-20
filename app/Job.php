@@ -32,6 +32,16 @@ class Job extends Model
     }
 
     /**
+     * A Job has many Tags
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tags()
+    {
+        return $this->hasMany(Tag::class);
+    }
+
+    /**
      * Create a new application for this job
      *
      * @param Worker $worker

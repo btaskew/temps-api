@@ -18,4 +18,13 @@ class JobTest extends TestCase
 
         $this->assertInstanceOf('App\Application', $job->applications->first());
     }
+
+    /** @test */
+    public function a_job_has_tags()
+    {
+        $job = create('App\Job');
+        create('App\Tag', ['job_id' => $job->id], 4);
+
+        $this->assertInstanceOf('App\Tag', $job->tags->first());
+    }
 }
