@@ -78,7 +78,10 @@ class Application extends Model
         ]);
 
         if ($response['type'] == 'approved') {
-            $this->job->update(['approved_application_id' => $this->id]);
+            $this->job->update([
+                'approved_application_id' => $this->id,
+                'open_vacancies' => $this->job->open_vacancies - 1
+            ]);
         }
 
         if ($response['reject_all']) {

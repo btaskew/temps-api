@@ -7,7 +7,7 @@ class CreateJobsTest extends TestCase
     {
         $staff = setActiveStaff();
 
-        $job = factory('App\Job')->raw([
+        $job = raw('App\Job', [
             'tags' => ['foo', 'bar']
         ]);
 
@@ -23,12 +23,28 @@ class CreateJobsTest extends TestCase
     {
         $staff = setActiveStaff();
 
-        $job = factory('App\Job')->raw([
+        $job = raw('App\Job', [
             'tags' => ['foo', 'bar']
         ]);
 
         $this->post('/jobs?token=' . $staff->user->activeUser->token, $job)
             ->seeInDatabase('tags', ['tag' => 'foo', 'tag' => 'bar']);
+    }
+
+    /** @test */
+    public function a_job_has_to_have_at_least_one_open_vacancy()
+    {
+        $this->withExceptionHandling();
+
+        $staff = setActiveStaff();
+
+        $job = factory('App\Job')->raw([
+            'open_vacancies' => 0,
+            'tags' => ['foo', 'bar']
+        ]);
+
+        $this->post('/jobs?token=' . $staff->user->activeUser->token, $job)
+            ->assertContains("The open vacancies must be at least 1.", $this->response->content());
     }
 
     /** @test */
@@ -64,8 +80,10 @@ class CreateJobsTest extends TestCase
 
         $staff = setActiveStaff();
 
-        $this->post('/jobs', ['description' => 'Test job', 'token' => $staff->user->activeUser->token])
-            ->assertResponseStatus(422);
+        $job = raw('App\Job', ['title' => null, 'tags' => ['foo']]);
+
+        $this->post('/jobs?token=' . $staff->user->activeUser->token, $job)
+            ->assertContains("The title field is required.", $this->response->content());
     }
 
     /** @test */
@@ -75,8 +93,10 @@ class CreateJobsTest extends TestCase
 
         $staff = setActiveStaff();
 
-        $this->post('/jobs', ['title' => 'Test job', 'token' => $staff->user->activeUser->token])
-            ->assertResponseStatus(422);
+        $job = raw('App\Job', ['description' => null, 'tags' => ['foo']]);
+
+        $this->post('/jobs?token=' . $staff->user->activeUser->token, $job)
+            ->assertContains("The description field is required.", $this->response->content());
     }
 
     /** @test */

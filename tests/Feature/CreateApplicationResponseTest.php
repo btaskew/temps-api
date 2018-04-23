@@ -5,7 +5,7 @@ class CreateApplicationResponseTest extends TestCase
     /** @test */
     public function a_staff_user_can_approve_an_application_for_their_job()
     {
-        list($application, $path) = $this->runFactories();
+        [$application, $path] = $this->runFactories();
 
         $this->assertFalse($application->isApproved());
 
@@ -24,7 +24,7 @@ class CreateApplicationResponseTest extends TestCase
     /** @test */
     public function a_staff_user_can_reject_an_application_for_their_job()
     {
-        list($application, $path) = $this->runFactories();
+        [$application, $path] = $this->runFactories();
 
         $this->assertFalse($application->isApproved());
 
@@ -61,9 +61,26 @@ class CreateApplicationResponseTest extends TestCase
     }
 
     /** @test */
+    public function approving_an_application_reduces_the_jobs_open_vacancies()
+    {
+        $staff = setActiveStaff();
+        $job = create('App\Job', ['staff_id' => $staff->id, 'open_vacancies' => 2]);
+        $application = create('App\Application', ['job_id' => $job->id]);
+
+        $this->post(
+            "/jobs/$job->id/applications/$application->id/respond?token=" . $staff->user->activeUser->token,
+            [
+                'type' => 'approved',
+                'comment' => 'You are perfect for this job',
+                'reject_all' => false
+            ]
+        )->assertEquals(1, $job->fresh()->open_vacancies);
+    }
+
+    /** @test */
     public function applications_can_only_have_one_response_made()
     {
-        list($application, $path) = $this->runFactories();
+        [$application, $path] = $this->runFactories();
         create('App\ApplicationResponse', ['application_id' => $application->id]);
 
         $this->post(
@@ -113,6 +130,6 @@ class CreateApplicationResponseTest extends TestCase
         $job = create('App\Job', ['staff_id' => $staff->id]);
         $application = create('App\Application', ['job_id' => $job->id]);
         $path = "/jobs/$job->id/applications/$application->id/respond?token=" . $staff->user->activeUser->token;
-        return [$application, $path];
+        return [$application, $path, $job];
     }
 }

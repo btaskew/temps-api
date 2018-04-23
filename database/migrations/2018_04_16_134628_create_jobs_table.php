@@ -18,6 +18,7 @@ class CreateJobsTable extends Migration
             $table->string('title');
             $table->text('description');
             $table->dateTime('closing_date');
+            $table->unsignedInteger('open_vacancies');
             $table->unsignedInteger('staff_id');
             $table->unsignedInteger('approved_application_id')->nullable();
             $table->timestamps();

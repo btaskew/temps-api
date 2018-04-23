@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Application;
 use App\Job;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class WorkersApplicationsController extends Controller
@@ -37,6 +38,10 @@ class WorkersApplicationsController extends Controller
      */
     public function store(Job $job)
     {
+        if (!$job->openForApplications()) {
+            return $this->respondError('This job is no longer open for applications', 403);
+        }
+
         return $this->respond(
             $job->apply(Auth::user()->worker)
         );

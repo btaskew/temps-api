@@ -16,7 +16,7 @@ class JobsController extends Controller
      */
     public function index(Request $request)
     {
-        $jobs = Job::latest()->open();
+        $jobs = Job::latest()->open()->withVacancies();
 
         if ($request->has('tags')) {
             $jobs->filterByTags($request->input('tags'));
@@ -48,13 +48,15 @@ class JobsController extends Controller
             'title' => 'string|required',
             'description' => 'string|required',
             'tags' => 'array|required',
-            'closing_date' => 'date|required'
+            'closing_date' => 'date|required',
+            'open_vacancies' => 'numeric|required|min:1'
         ]);
 
         $job = Job::create([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
             'closing_date' => $request->input('closing_date'),
+            'open_vacancies' => $request->input('open_vacancies'),
             'staff_id' => Auth::id()
         ]);
 

@@ -46,8 +46,8 @@ class Job extends Model
     /**
      * Append to query for each tag
      *
-     * @param Builder  $query
-     * @param string   $tags
+     * @param Builder $query
+     * @param string  $tags
      * @return Builder|static
      */
     public function scopeFilterByTags(Builder $query, string $tags)
@@ -71,6 +71,26 @@ class Job extends Model
     public function scopeOpen(Builder $query)
     {
         $query->where('closing_date', '>', Carbon::now());
+    }
+
+    /**
+     * Only show jobs that have open vacancies
+     *
+     * @param Builder $query
+     */
+    public function scopeWithVacancies(Builder $query)
+    {
+        $query->where('open_vacancies', '>', 0);
+    }
+
+    /**
+     * Determines if the job is open for applications
+     *
+     * @return bool
+     */
+    public function openForApplications()
+    {
+        return $this->closing_date > Carbon::now() && $this->open_vacancies > 0;
     }
 
     /**

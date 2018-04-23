@@ -16,7 +16,7 @@ class ViewJobsTest extends TestCase
     }
 
     /** @test */
-    public function can_only_see_jobs_that_havent_passed_their_closing_date()
+    public function can_only_search_for__jobs_that_havent_passed_their_closing_date()
     {
         $openJob = create('App\Job');
         $closedJob = create('App\Job', ['closing_date' => \Carbon\Carbon::yesterday()]);
@@ -26,6 +26,20 @@ class ViewJobsTest extends TestCase
                 'title' => $openJob->title
             ])->dontSeeJson([
                 'title' => $closedJob->title
+            ]);
+    }
+
+    /** @test */
+    public function can_only_search_for_jobs_that_have_vacancies()
+    {
+        $jobWithVacancies = create('App\Job', ['open_vacancies' => 2]);
+        $jobWithNoVacancies = create('App\Job', ['open_vacancies' => 0]);
+
+        $this->get("/jobs")
+            ->seeJsonContains([
+                'title' => $jobWithVacancies->title
+            ])->dontSeeJson([
+                'title' => $jobWithNoVacancies->title
             ]);
     }
 

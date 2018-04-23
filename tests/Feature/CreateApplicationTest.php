@@ -16,6 +16,26 @@ class CreateApplicationTest extends TestCase
     }
 
     /** @test */
+    public function a_worker_cant_apply_to_a_job_past_its_closing_date()
+    {
+        $worker = setActiveWorker();
+        $job = create('App\Job', ['closing_date' => \Carbon\Carbon::yesterday()]);
+
+        $this->post("/jobs/$job->id/apply", ['token' => $worker->user->activeUser->token])
+            ->assertResponseStatus(403);
+    }
+
+    /** @test */
+    public function a_worker_cant_apply_to_a_job_with_no_open_vacancies()
+    {
+        $worker = setActiveWorker();
+        $job = create('App\Job', ['open_vacancies' => 0]);
+
+        $this->post("/jobs/$job->id/apply", ['token' => $worker->user->activeUser->token])
+            ->assertResponseStatus(403);
+    }
+
+    /** @test */
     public function an_inactive_user_cannot_apply_to_a_job()
     {
         $this->withExceptionHandling();
@@ -25,7 +45,6 @@ class CreateApplicationTest extends TestCase
         $this->post("/jobs/$job->id/apply")
             ->assertResponseStatus(401);
     }
-
 
     /** @test */
     public function an_active_staff_user_cannot_apply_to_a_job()
