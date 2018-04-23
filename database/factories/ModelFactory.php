@@ -63,6 +63,16 @@ $factory->define(App\Application::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->define(App\ApplicationResponse::class, function (Faker\Generator $faker) {
+    return [
+        'application_id' => function() {
+            return factory('App\Application')->create()->id;
+        },
+        'type' => 'rejected',
+        'comment' => $faker->text()
+    ];
+});
+
 $factory->define(App\Tag::class, function (Faker\Generator $faker) {
     return [
         'tag' => $faker->word,

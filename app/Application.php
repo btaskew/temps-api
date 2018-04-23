@@ -32,6 +32,16 @@ class Application extends Model
     }
 
     /**
+     * An Application has an ApplicationResponse
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function response()
+    {
+        return $this->hasOne(ApplicationResponse::class);
+    }
+
+    /**
      * Determines if application has been approved
      *
      * @return bool

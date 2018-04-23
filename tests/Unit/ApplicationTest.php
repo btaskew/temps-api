@@ -19,6 +19,15 @@ class ApplicationTest extends TestCase
     }
 
     /** @test */
+    public function an_application_can_have_a_response()
+    {
+        $application = create('App\Application');
+        create('App\ApplicationResponse', ['application_id' => $application->id]);
+
+        $this->assertInstanceOf('App\ApplicationResponse', $application->response);
+    }
+
+    /** @test */
     public function an_application_knows_if_it_is_approved()
     {
         $job = create('App\Job');
