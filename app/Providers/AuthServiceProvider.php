@@ -44,7 +44,7 @@ class AuthServiceProvider extends ServiceProvider
             return $staff->id == $job->staff_id;
         });
 
-        Gate::define('approve-application', function ($staff, $job) {
+        Gate::define('create-application-response', function ($staff, $job) {
             return $staff->id == $job->staff_id;
         });
     }

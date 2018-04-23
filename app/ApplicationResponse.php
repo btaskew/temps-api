@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class ApplicationResponse extends Model
 {
+    protected $guarded = [];
+
     /**
      * An ApplicationResponse belongs to an Application
      *

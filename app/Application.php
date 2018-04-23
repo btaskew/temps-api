@@ -48,6 +48,27 @@ class Application extends Model
      */
     public function isApproved()
     {
-        return $this->id == $this->job->approved_application_id;
+        if (!$this->response) {
+            return false;
+        }
+
+        return $this->response->type == 'approved';
+    }
+
+    /**
+     * Create a response for the application
+     *
+     * @param array $response
+     */
+    public function respond(array $response)
+    {
+        $this->response()->create([
+            'type' => $response['type'],
+            'comment' => $response['comment']
+        ]);
+
+        if ($response['type'] == 'approved') {
+            $this->job->update(['approved_application_id' => $this->id]);
+        }
     }
 }

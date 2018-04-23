@@ -33,7 +33,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
 
         $router->get('/jobs/{job}/applications', 'JobsApplicationsController@index');
         $router->get('/jobs/{job}/applications/{application}', 'JobsApplicationsController@show');
-        $router->post('/jobs/{job}/applications/{application}/approve', 'ApprovedApplicationsController@store');
+        $router->post('/jobs/{job}/applications/{application}/respond', 'ApplicationResponseController@store');
     });
 
     $router->group(['middleware' => 'worker'], function () use ($router) {
