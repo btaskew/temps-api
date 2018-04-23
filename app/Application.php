@@ -48,11 +48,21 @@ class Application extends Model
      */
     public function isApproved()
     {
-        if (!$this->response) {
+        if (!$this->hasResponse()) {
             return false;
         }
 
         return $this->response->type == 'approved';
+    }
+
+    /**
+     * Determines if application has a response
+     *
+     * @return bool
+     */
+    public function hasResponse()
+    {
+        return !is_null($this->response);
     }
 
     /**
@@ -69,6 +79,10 @@ class Application extends Model
 
         if ($response['type'] == 'approved') {
             $this->job->update(['approved_application_id' => $this->id]);
+        }
+
+        if ($response['reject_all']) {
+            $this->job->rejectOpenApplications();
         }
     }
 }

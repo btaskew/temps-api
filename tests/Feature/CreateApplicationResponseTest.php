@@ -13,7 +13,8 @@ class CreateApplicationResponseTest extends TestCase
             $path,
             [
                 'type' => 'approved',
-                'comment' => 'You are perfect for this job'
+                'comment' => 'You are perfect for this job',
+                'reject_all' => false
             ]
         )->assertTrue($application->fresh()->isApproved());
 
@@ -31,11 +32,32 @@ class CreateApplicationResponseTest extends TestCase
             $path,
             [
                 'type' => 'rejected',
-                'comment' => 'This is not the job for you'
+                'comment' => 'This is not the job for you',
+                'reject_all' => false
             ]
         )->assertFalse($application->fresh()->isApproved());
 
         $this->seeInDatabase('application_responses', ['application_id' => $application->id]);
+    }
+
+    /** @test */
+    public function staff_can_automatically_reject_other_applications_on_approval()
+    {
+        $staff = setActiveStaff();
+        $job = create('App\Job', ['staff_id' => $staff->id]);
+        $applications = create('App\Application', ['job_id' => $job->id], 2);
+
+        $this->post(
+            "/jobs/$job->id/applications/". $applications[0]->id .
+                "/respond?token=" . $staff->user->activeUser->token,
+            [
+                'type' => 'approved',
+                'comment' => 'You are perfect for this job',
+                'reject_all' => true
+            ]
+        )->assertTrue($applications[0]->isApproved());
+
+        $this->assertTrue($applications[1]->response->type == 'rejected');
     }
 
     /** @test */
@@ -48,7 +70,8 @@ class CreateApplicationResponseTest extends TestCase
             $path,
             [
                 'type' => 'rejected',
-                'comment' => 'This is not the job for you'
+                'comment' => 'This is not the job for you',
+                'reject_all' => false
             ]
         )->assertResponseStatus(409);
     }

@@ -84,4 +84,19 @@ class Job extends Model
             $this->tags()->create(['tag' => $tag]);
         }
     }
+
+    /**
+     * Rejects all applications for the job that don't have a response
+     */
+    public function rejectOpenApplications()
+    {
+        foreach ($this->applications as $application) {
+            if (!$application->hasResponse()) {
+                $application->response()->create([
+                    'type' => 'rejected',
+                    'comment' => 'Sorry your application has been rejected.'
+                ]);
+            }
+        }
+    }
 }

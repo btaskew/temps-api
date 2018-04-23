@@ -26,10 +26,11 @@ class ApplicationResponseController extends Controller
 
         $this->validate($request, [
             'type' => 'string|required|in:approved,rejected',
-            'comment' => 'string|nullable'
+            'comment' => 'string|nullable|required',
+            'reject_all' => 'bool|nullable|required'
         ]);
 
-        $application->respond($request->only('type', 'comment'));
+        $application->respond($request->only('type', 'comment', 'reject_all'));
 
         return response()->json(['success' => 'Application responded']);
     }
