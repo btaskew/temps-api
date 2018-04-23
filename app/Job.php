@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -51,6 +52,8 @@ class Job extends Model
      */
     public function scopeFilterByTags(Builder $query, string $tags)
     {
+        $query->join('tags', 'jobs.id', '=', 'tags.job_id');
+
         $tagsArray = explode(',', $tags);
 
         foreach ($tagsArray as $tag) {
@@ -58,6 +61,16 @@ class Job extends Model
         }
 
         return $query;
+    }
+
+    /**
+     * Only show jobs that haven't passed their closing date
+     *
+     * @param Builder $query
+     */
+    public function scopeOpen(Builder $query)
+    {
+        $query->where('closing_date', '>', Carbon::now());
     }
 
     /**

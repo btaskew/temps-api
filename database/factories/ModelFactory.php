@@ -17,7 +17,8 @@ $factory->define(App\Job::class, function (Faker\Generator $faker) {
             return factory('App\Staff')->create()->id;
         },
         'title' => $faker->sentence,
-        'description' => $faker->paragraph
+        'description' => $faker->paragraph,
+        'closing_date' => \Carbon\Carbon::tomorrow()
     ];
 });
 

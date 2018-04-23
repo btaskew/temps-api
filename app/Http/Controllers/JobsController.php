@@ -16,16 +16,13 @@ class JobsController extends Controller
      */
     public function index(Request $request)
     {
+        $jobs = Job::latest()->open();
+
         if ($request->has('tags')) {
-            return $this->respond(
-                Job::query()
-                    ->join('tags', 'jobs.id', '=', 'tags.job_id')
-                    ->filterByTags($request->input('tags'))
-                    ->get()
-            );
+            $jobs->filterByTags($request->input('tags'));
         }
 
-        return $this->respond(Job::all());
+        return $this->respond($jobs->get());
     }
 
     /**
@@ -50,12 +47,14 @@ class JobsController extends Controller
         $this->validate($request, [
             'title' => 'string|required',
             'description' => 'string|required',
-            'tags' => 'array|required'
+            'tags' => 'array|required',
+            'closing_date' => 'date|required'
         ]);
 
         $job = Job::create([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
+            'closing_date' => $request->input('closing_date'),
             'staff_id' => Auth::id()
         ]);
 
@@ -75,6 +74,7 @@ class JobsController extends Controller
         $this->authorize('delete-job', $job);
 
         $job->delete();
+
         return response()->json(['success' => 'Job has been deleted']);
     }
 }
