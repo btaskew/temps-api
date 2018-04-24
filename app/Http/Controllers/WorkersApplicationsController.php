@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Application;
 use App\Job;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class WorkersApplicationsController extends Controller
@@ -33,17 +34,23 @@ class WorkersApplicationsController extends Controller
     /**
      * Create an application
      *
-     * @param Job $job
+     * @param Request $request
+     * @param Job     $job
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Job $job)
+    public function store(Request $request, Job $job)
     {
+        $this->validate($request, [
+            'experience' => 'array|required'
+        ]);
+
         if (!$job->openForApplications()) {
             return $this->respondError('This job is no longer open for applications', 403);
         }
 
-        return $this->respond(
-            $job->apply(Auth::user()->worker)
-        );
+        $application = $job->apply(Auth::user()->worker);
+        $application->saveExperience($request->input('experience'));
+
+        return $this->respond($application);
     }
 }

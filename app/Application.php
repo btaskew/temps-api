@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\UnauthorizedException;
 
 class Application extends Model
 {
@@ -73,6 +75,24 @@ class Application extends Model
     public function hasResponse()
     {
         return !is_null($this->response);
+    }
+
+    /**
+     * Save relation to given experience for application
+     *
+     * @param array $experienceIds
+     */
+    public function saveExperience(array $experienceIds)
+    {
+        foreach ($experienceIds as $id) {
+            $experience = Experience::findOrFail($id);
+
+            if ($experience->worker_id != Auth::user()->worker->id) {
+                throw new UnauthorizedException('Experience not owned by user');
+            }
+
+            $this->experience()->attach($id);
+        }
     }
 
     /**

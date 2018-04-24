@@ -51,4 +51,31 @@ class ApplicationTest extends TestCase
 
         $this->assertTrue($application->fresh()->isApproved());
     }
+
+    /** @test */
+    public function cant_add_non_existing_experience_to_an_application()
+    {
+        $this->withExceptionHandling();
+
+        $application = create('App\Application');
+
+        $this->expectException('Illuminate\Database\Eloquent\ModelNotFoundException');
+
+        $application->saveExperience([1]);
+    }
+
+    /** @test */
+    public function cant_add_another_users_experience_to_an_application()
+    {
+        $this->withExceptionHandling();
+
+        $worker = create('App\Worker', ['id' => 1]);
+        $this->actingAs($worker->user);
+        $application = create('App\Application', ['worker_id' => $worker->id]);
+        $otherUsersExperience = create('App\Experience', ['worker_id' => 2]);
+
+        $this->expectException('Illuminate\Validation\UnauthorizedException');
+
+        $application->saveExperience([$otherUsersExperience->id]);
+    }
 }
