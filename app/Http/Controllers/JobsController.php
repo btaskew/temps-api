@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\JobFilters;
 use App\Job;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,16 +12,12 @@ class JobsController extends Controller
     /**
      * Return all jobs
      *
-     * @param Request $request
+     * @param JobFilters $filters
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request)
+    public function index(JobFilters $filters)
     {
-        $jobs = Job::latest()->open()->withVacancies();
-
-        if ($request->has('tags')) {
-            $jobs->filterByTags($request->input('tags'));
-        }
+        $jobs = Job::latest()->open()->withVacancies()->filter($filters);
 
         return $this->respond($jobs->get());
     }
@@ -49,7 +46,9 @@ class JobsController extends Controller
             'description' => 'string|required',
             'tags' => 'array|required',
             'closing_date' => 'date|required',
-            'open_vacancies' => 'numeric|required|min:1'
+            'open_vacancies' => 'numeric|required|min:1',
+            'duration' => 'numeric|required|min:0.5',
+            'rate' => 'numeric|required'
         ]);
 
         $job = Job::create([
@@ -57,6 +56,8 @@ class JobsController extends Controller
             'description' => $request->input('description'),
             'closing_date' => $request->input('closing_date'),
             'open_vacancies' => $request->input('open_vacancies'),
+            'duration' => $request->input('duration'),
+            'rate' => $request->input('rate'),
             'staff_id' => Auth::id()
         ]);
 

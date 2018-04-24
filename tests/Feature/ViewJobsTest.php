@@ -85,6 +85,28 @@ class ViewJobsTest extends TestCase
     }
 
     /** @test */
+    public function can_query_for_jobs_by_duration()
+    {
+        $validJob = create('App\Job', ['duration' => 2]);
+        $invalidJob = create('App\Job', ['duration' => 5]);
+
+        $this->get('/jobs?minDuration=1&maxDuration=3')
+            ->seeJsonContains(['title' => $validJob->title])
+            ->dontSeeJson(['title' => $invalidJob->title]);
+    }
+
+    /** @test */
+    public function can_query_for_jobs_by_hourly_rate()
+    {
+        $validJob = create('App\Job', ['rate' => 2]);
+        $invalidJob = create('App\Job', ['rate' => 5]);
+
+        $this->get('/jobs?minRate=1&maxRate=3')
+            ->seeJsonContains(['title' => $validJob->title])
+            ->dontSeeJson(['title' => $invalidJob->title]);
+    }
+
+    /** @test */
     public function can_query_for_a_specific_users_job()
     {
         $staff = create('App\Staff');

@@ -19,7 +19,9 @@ $factory->define(App\Job::class, function (Faker\Generator $faker) {
         'title' => $faker->sentence,
         'description' => $faker->paragraph,
         'closing_date' => \Carbon\Carbon::tomorrow(),
-        'open_vacancies' => $faker->randomDigitNotNull
+        'open_vacancies' => $faker->randomDigitNotNull,
+        'duration' => $faker->randomDigitNotNull,
+        'rate' => $faker->randomDigitNotNull,
     ];
 });
 

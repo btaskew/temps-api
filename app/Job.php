@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Filters\JobFilters;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -44,23 +45,15 @@ class Job extends Model
     }
 
     /**
-     * Append to query for each tag
+     * Apply any query filters
      *
-     * @param Builder $query
-     * @param string  $tags
-     * @return Builder|static
+     * @param Builder    $query
+     * @param JobFilters $filters
+     * @return Builder
      */
-    public function scopeFilterByTags(Builder $query, string $tags)
+    public function scopeFilter(Builder $query, JobFilters $filters)
     {
-        $query->join('tags', 'jobs.id', '=', 'tags.job_id');
-
-        $tagsArray = explode(',', $tags);
-
-        foreach ($tagsArray as $tag) {
-            $query->orWhere('tags.tag', '=', filter_var($tag, FILTER_SANITIZE_STRING));
-        }
-
-        return $query;
+        return $filters->apply($query);
     }
 
     /**
