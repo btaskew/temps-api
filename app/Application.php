@@ -42,6 +42,16 @@ class Application extends Model
     }
 
     /**
+     * An Application belongs to many Experiences
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function experience()
+    {
+        return $this->belongsToMany(Experience::class);
+    }
+
+    /**
      * Determines if application has been approved
      *
      * @return bool

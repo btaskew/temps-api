@@ -85,3 +85,16 @@ $factory->define(App\Tag::class, function (Faker\Generator $faker) {
         },
     ];
 });
+
+$factory->define(App\Experience::class, function (Faker\Generator $faker) {
+    return [
+        'worker_id' => function() {
+            return factory('App\Worker')->create()->id;
+        },
+        'title' => $faker->sentence,
+        'type' => 'Paid work',
+        'description' => $faker->paragraph,
+        'start_date' => $faker->date(),
+        'end_date' => $faker->date()
+    ];
+});

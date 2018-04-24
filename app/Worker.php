@@ -32,4 +32,14 @@ class Worker extends Model
     {
         return $this->hasMany(Application::class);
     }
+
+    /**
+     * A Worker has many Experiences
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function experience()
+    {
+        return $this->hasMany(Experience::class);
+    }
 }

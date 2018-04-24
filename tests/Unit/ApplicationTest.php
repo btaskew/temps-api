@@ -28,6 +28,16 @@ class ApplicationTest extends TestCase
     }
 
     /** @test */
+    public function an_application_has_many_experiences()
+    {
+        $application = create('App\Application');
+        $experience = create('App\Experience', ['worker_id' => $application->owner->id]);
+        $application->experience()->attach($experience->id);
+
+        $this->assertInstanceOf('App\Experience', $application->experience->first());
+    }
+
+    /** @test */
     public function an_application_knows_if_it_is_approved()
     {
         $application = create('App\Application');

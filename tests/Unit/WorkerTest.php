@@ -18,4 +18,13 @@ class WorkerTest extends TestCase
 
         $this->assertInstanceOf('App\User', $worker->user);
     }
+
+    /** @test */
+    public function a_worker_has_multiple_experiences()
+    {
+        $worker = create('App\Worker');
+        create('App\Experience', ['worker_id' => $worker->id]);
+
+        $this->assertInstanceOf('App\Experience', $worker->experience->first());
+    }
 }
