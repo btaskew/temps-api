@@ -74,32 +74,6 @@ class CreateJobsTest extends TestCase
     }
 
     /** @test */
-    public function a_job_requires_a_title()
-    {
-        $this->withExceptionHandling();
-
-        $staff = setActiveStaff();
-
-        $job = raw('App\Job', ['title' => null, 'tags' => ['foo']]);
-
-        $this->post('/jobs?token=' . $staff->user->activeUser->token, $job)
-            ->assertContains("The title field is required.", $this->response->content());
-    }
-
-    /** @test */
-    public function a_job_requires_a_description()
-    {
-        $this->withExceptionHandling();
-
-        $staff = setActiveStaff();
-
-        $job = raw('App\Job', ['description' => null, 'tags' => ['foo']]);
-
-        $this->post('/jobs?token=' . $staff->user->activeUser->token, $job)
-            ->assertContains("The description field is required.", $this->response->content());
-    }
-
-    /** @test */
     public function a_jobs_owner_can_delete_their_job()
     {
         $staff = setActiveStaff();

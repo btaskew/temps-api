@@ -90,12 +90,14 @@ class Job extends Model
      * Create a new application for this job
      *
      * @param Worker $worker
+     * @param string $coverLetter
      * @return Application
      */
-    public function apply(Worker $worker)
+    public function apply(Worker $worker, string $coverLetter)
     {
         return $this->applications()->create([
-            'worker_id' => $worker->id
+            'worker_id' => $worker->id,
+            'cover_letter' => $coverLetter
         ]);
     }
 

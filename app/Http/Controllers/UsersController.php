@@ -38,6 +38,10 @@ class UsersController extends Controller
      */
     public function logout(Request $request)
     {
+        $this->validate($request, [
+            'email' => 'email|required'
+        ]);
+
         $user = User::where('email', $request->input('email'))->firstOrFail();
 
         if (!$user->activeUser) {

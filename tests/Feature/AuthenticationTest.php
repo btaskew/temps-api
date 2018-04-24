@@ -47,20 +47,6 @@ class AuthenticationTest extends TestCase
     }
 
     /** @test */
-    public function a_signup_requires_an_email()
-    {
-        $this->withExceptionHandling();
-
-        $userNoEmail = [
-            'name' => 'Test user',
-            'password' => 'password'
-        ];
-
-        $this->post('/signup/worker', $userNoEmail)
-            ->assertResponseStatus(422);
-    }
-
-    /** @test */
     public function cant_sign_up_a_new_user_with_the_same_email()
     {
         $this->withExceptionHandling();

@@ -49,7 +49,7 @@ class WorkersApplicationsController extends Controller
             return $this->respondError('This job is no longer open for applications', 403);
         }
 
-        $application = $job->apply(Auth::user()->worker);
+        $application = $job->apply(Auth::user()->worker, $request->input('cover_letter'));
         $application->saveExperience($request->input('experience'));
 
         return $this->respond($application);

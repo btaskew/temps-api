@@ -31,21 +31,6 @@ class CreateApplicationTest extends TestCase
     }
 
     /** @test */
-    public function an_application_requires_a_cover_letter()
-    {
-        $this->withExceptionHandling();
-
-        $job = create('App\Job', ['staff_id' => '1']);
-        $worker = setActiveWorker();
-        $application = raw('App\Application',
-            ['worker_id' => $worker->id, 'job_id' => $job->id, 'experience' => [1], 'cover_letter' => null]
-        );;
-
-        $this->post("/jobs/$job->id/apply?token=" . $worker->user->activeUser->token, $application)
-            ->assertContains("The cover letter field is required.", $this->response->content());
-    }
-
-    /** @test */
     public function a_worker_cant_apply_to_a_job_past_its_closing_date()
     {
         $worker = setActiveWorker();

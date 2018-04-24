@@ -74,7 +74,7 @@ $factory->define(App\ApplicationResponse::class, function (Faker\Generator $fake
             return factory('App\Application')->create()->id;
         },
         'type' => 'rejected',
-        'comment' => $faker->text()
+        'comment' => $faker->text
     ];
 });
 
