@@ -85,11 +85,7 @@ class Application extends Model
     public function saveExperience(array $experienceIds)
     {
         foreach ($experienceIds as $id) {
-            $experience = Experience::findOrFail($id);
-
-            if ($experience->worker_id != Auth::user()->worker->id) {
-                throw new UnauthorizedException('Experience not owned by user');
-            }
+            $this->validateExperience($id);
 
             $this->experience()->attach($id);
         }
@@ -107,15 +103,22 @@ class Application extends Model
             'comment' => $response['comment']
         ]);
 
-        if ($response['type'] == 'approved') {
-            $this->job->update([
-                'approved_application_id' => $this->id,
-                'open_vacancies' => $this->job->open_vacancies - 1
-            ]);
-        }
-
         if ($response['reject_all']) {
             $this->job->rejectOpenApplications();
+        }
+    }
+
+    /**
+     * Validates whether the given experience exists and is owned by the user
+     *
+     * @param $id
+     */
+    private function validateExperience($id): void
+    {
+        $experience = Experience::findOrFail($id);
+
+        if ($experience->worker_id != Auth::user()->worker->id) {
+            throw new UnauthorizedException('Experience not owned by user');
         }
     }
 }

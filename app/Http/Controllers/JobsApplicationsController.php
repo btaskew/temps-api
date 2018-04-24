@@ -21,11 +21,10 @@ class JobsApplicationsController extends Controller
     /**
      * View a specific application
      *
-     * @param Job         $job
      * @param Application $application
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Job $job, Application $application)
+    public function show(Application $application)
     {
         return $this->respond($application);
     }
