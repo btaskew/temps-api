@@ -63,7 +63,8 @@ $factory->define(App\Application::class, function (Faker\Generator $faker) {
         },
         'job_id' => function() {
             return factory('App\Job')->create()->id;
-        }
+        },
+        'cover_letter' => $faker->paragraph
     ];
 });
 

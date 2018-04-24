@@ -41,7 +41,8 @@ class WorkersApplicationsController extends Controller
     public function store(Request $request, Job $job)
     {
         $this->validate($request, [
-            'experience' => 'array|required'
+            'experience' => 'array|required',
+            'cover_letter' => 'string|required'
         ]);
 
         if (!$job->openForApplications()) {

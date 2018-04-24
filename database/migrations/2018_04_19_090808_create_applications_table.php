@@ -17,6 +17,7 @@ class CreateApplicationsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('worker_id');
             $table->unsignedInteger('job_id');
+            $table->text('cover_letter');
             $table->timestamps();
 
             $table->foreign('worker_id')
