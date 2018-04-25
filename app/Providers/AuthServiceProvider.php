@@ -40,7 +40,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     private function setPermissions()
     {
-        Gate::define('delete-job', function ($staff, $job) {
+        Gate::define('edit-job', function ($staff, $job) {
             return $staff->id == $job->staff_id;
         });
 

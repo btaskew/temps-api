@@ -67,6 +67,38 @@ class JobsController extends Controller
     }
 
     /**
+     * Update the given job
+     *
+     * @param Request $request
+     * @param Job     $job
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request, Job $job)
+    {
+        $this->validate($request, [
+            'title' => 'string',
+            'description' => 'string',
+            'tags' => 'array',
+            'closing_date' => 'date',
+            'open_vacancies' => 'numeric|min:1',
+            'duration' => 'numeric|min:0.5',
+            'rate' => 'numeric'
+        ]);
+
+        $this->authorize('edit-job', $job);
+
+        $job->update(
+            $request->only('title', 'description', 'closing_date', 'open_vacancies', 'duration', 'rate')
+        );
+
+        if ($request->has('tags')) {
+            $job->saveTags($request->input('tags'));
+        }
+
+        return response()->json(['success' => 'Job updated']);
+    }
+
+    /**
      * Delete the given job
      *
      * @param Job $job
@@ -74,7 +106,7 @@ class JobsController extends Controller
      */
     public function destroy(Job $job)
     {
-        $this->authorize('delete-job', $job);
+        $this->authorize('edit-job', $job);
 
         $job->delete();
 

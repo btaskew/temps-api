@@ -27,6 +27,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
 
     $router->group(['middleware' => 'staff'], function () use ($router) {
         $router->post('/jobs', 'JobsController@store');
+        $router->patch('/jobs/{job}', 'JobsController@update');
         $router->delete('/jobs/{job}', 'JobsController@destroy');
 
         $router->get('/jobs/{job}/applications', 'JobsApplicationsController@index');

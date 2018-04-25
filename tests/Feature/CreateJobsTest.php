@@ -77,7 +77,6 @@ class CreateJobsTest extends TestCase
     public function a_jobs_owner_can_delete_their_job()
     {
         $staff = setActiveStaff();
-
         $job = create('App\Job', ['staff_id' => $staff->id]);
 
         $this->delete("/jobs/$job->id", ['token' => $staff->user->activeUser->token])
@@ -110,6 +109,50 @@ class CreateJobsTest extends TestCase
         $worker = setActiveWorker();
 
         $this->delete("/jobs/$job->id", ['token' => $worker->user->activeUser->token])
+            ->assertResponseStatus(403);
+    }
+
+    /** @test */
+    public function a_jobs_owner_can_edit_their_job()
+    {
+        $staff = setActiveStaff();
+        $job = create('App\Job', ['staff_id' => $staff->id]);
+
+        $this->patch("/jobs/$job->id", ['token' => $staff->user->activeUser->token, "title" => "New title"])
+            ->seeInDatabase('jobs', [
+                'title' => 'New title'
+            ]);
+
+        $this->assertContains('success', $this->response->content());
+    }
+
+    /** @test */
+    public function a_jobs_owner_can_edit_tags_for_their_job()
+    {
+        $staff = setActiveStaff();
+        $job = create('App\Job', ['staff_id' => $staff->id]);
+        $job->saveTags(['foo']);
+
+        $this->patch("/jobs/$job->id", ['token' => $staff->user->activeUser->token, "tags" => ['foo', 'bar']])
+            ->seeInDatabase('tags', [
+                'tag' => 'foo',
+                'tag' => 'bar',
+            ]);
+
+        $this->assertContains('success', $this->response->content());
+    }
+
+    /** @test */
+    public function a_staff_user_cant_update_another_users_job()
+    {
+        $this->withExceptionHandling();
+
+        $staff = create('App\Staff');
+        $job = create('App\Job', ['staff_id' => $staff->id]);
+
+        $otherStaff = setActiveStaff();
+
+        $this->patch("/jobs/$job->id", ['token' => $otherStaff->user->activeUser->token])
             ->assertResponseStatus(403);
     }
 }
