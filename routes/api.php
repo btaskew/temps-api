@@ -42,7 +42,12 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
         $router->get('/profile/applications', 'WorkersApplicationsController@index');
         $router->get('/profile/applications/{application}', 'WorkersApplicationsController@show');
 
+        $router->get('/profile/education', 'EducationController@index');
+        $router->get('/profile/education/{education}', 'EducationController@show');
         $router->post('/profile/education', 'EducationController@store');
+
+        $router->get('/profile/experience', 'ExperienceController@index');
+        $router->get('/profile/experience/{experience}', 'ExperienceController@show');
         $router->post('/profile/experience', 'ExperienceController@store');
     });
 });

@@ -47,6 +47,14 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('create-application-response', function ($staff, $job) {
             return $staff->id == $job->staff_id;
         });
+
+        Gate::define('view-education', function ($worker, $education) {
+            return $worker->id == $education->worker_id;
+        });
+
+        Gate::define('view-experience', function ($worker, $experience) {
+            return $worker->id == $experience->worker_id;
+        });
     }
 
     /**

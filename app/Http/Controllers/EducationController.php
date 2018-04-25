@@ -9,6 +9,29 @@ use Illuminate\Support\Facades\Auth;
 class EducationController extends Controller
 {
     /**
+     * Return all users education
+     *
+     * @return mixed
+     */
+    public function index()
+    {
+        return Auth::user()->worker->education;
+    }
+
+    /**
+     * Return single education
+     *
+     * @param Education $education
+     * @return Education
+     */
+    public function show(Education $education)
+    {
+        $this->authorize('view-education', $education);
+
+        return $education;
+    }
+
+    /**
      * Save the education
      *
      * @param Request $request

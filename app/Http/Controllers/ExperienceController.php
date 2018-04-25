@@ -8,6 +8,35 @@ use Illuminate\Support\Facades\Auth;
 
 class ExperienceController extends Controller
 {
+    /**
+     * Return all users experience
+     *
+     * @return mixed
+     */
+    public function index()
+    {
+        return Auth::user()->worker->experience;
+    }
+
+    /**
+     * Return single experience
+     *
+     * @param Experience $experience
+     * @return Experience
+     */
+    public function show(Experience $experience)
+    {
+        $this->authorize('view-experience', $experience);
+
+        return $experience;
+    }
+
+    /**
+     * Save a new experience record
+     *
+     * @param Request $request
+     * @return mixed
+     */
     public function store(Request $request)
     {
         $this->validate($request, [

@@ -14,5 +14,7 @@ class ModelServiceProvider extends RouteBindingServiceProvider
         $this->binder->bind('job', 'App\Job');
         $this->binder->bind('staff', 'App\Staff');
         $this->binder->bind('application', 'App\Application');
+        $this->binder->bind('education', 'App\Education');
+        $this->binder->bind('experience', 'App\Experience');
     }
 }
