@@ -53,6 +53,6 @@ class WorkersApplicationsController extends Controller
         $application = $job->apply(Auth::user()->worker, $request->input('cover_letter'));
         $application->saveExperience($request->input('experience'));
 
-        return $this->respond($application);
+        return response()->json(['success' => 'Application submitted']);
     }
 }

@@ -47,7 +47,7 @@ class ExperienceController extends Controller
             'end_date' => 'date|required',
         ]);
 
-        return Experience::create([
+        Experience::create([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
             'type' => $request->input('type'),
@@ -55,5 +55,7 @@ class ExperienceController extends Controller
             'end_date' => $request->input('end_date'),
             'worker_id' => Auth::user()->worker->id
         ]);
+
+        return response()->json(['success' => 'Experience saved']);
     }
 }

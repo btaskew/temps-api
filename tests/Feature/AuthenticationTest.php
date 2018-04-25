@@ -16,6 +16,8 @@ class AuthenticationTest extends TestCase
                 // We know this will be 1 as it's the only user
                 'user_id' => 1
             ]);
+
+        $this->assertContains('token', $this->response->content());
     }
 
     /** @test */
@@ -32,6 +34,8 @@ class AuthenticationTest extends TestCase
                 // We know this will be 1 as it's the only user
                 'user_id' => 1
             ]);
+
+        $this->assertContains('token', $this->response->content());
     }
 
     /** @test */
@@ -57,6 +61,8 @@ class AuthenticationTest extends TestCase
 
         $this->post('/signup/worker', $newUser)
             ->assertResponseStatus(409);
+
+        $this->assertContains("User already exists with email $existingUser->email", $this->response->content());
     }
 
 
@@ -74,6 +80,8 @@ class AuthenticationTest extends TestCase
             ->seeInDatabase('active_users', [
                 'user_id' => $user->id
             ]);
+
+        $this->assertContains('token', $this->response->content());
     }
 
     /** @test */
@@ -88,6 +96,8 @@ class AuthenticationTest extends TestCase
                 'password' => 'bar'
             ])
             ->assertResponseStatus(401);
+
+        $this->assertContains('Invalid credentials', $this->response->content());
     }
 
     /** @test */
@@ -113,5 +123,7 @@ class AuthenticationTest extends TestCase
             ->notSeeInDatabase('active_users', [
                 'user_id' => $user->id
             ]);
+
+        $this->assertContains('success', $this->response->content());
     }
 }

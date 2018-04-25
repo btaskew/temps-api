@@ -13,6 +13,8 @@ class CreateExperienceTest extends TestCase
                 'type' => $experience['type'],
                 'title' => $experience['title']
             ]);
+
+        $this->assertContains('success', $this->response->content());
     }
 
     /** @test */

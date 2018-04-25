@@ -13,6 +13,8 @@ class CreateEducationTest extends TestCase
                 'name' => $education['name'],
                 'grade' => $education['grade']
             ]);
+
+        $this->assertContains('success', $this->response->content());
     }
 
     /** @test */

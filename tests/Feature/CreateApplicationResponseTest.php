@@ -19,6 +19,7 @@ class CreateApplicationResponseTest extends TestCase
         )->assertTrue($application->fresh()->isApproved());
 
         $this->seeInDatabase('application_responses', ['application_id' => $application->id]);
+        $this->assertContains('success', $this->response->content());
     }
 
     /** @test */
@@ -38,6 +39,7 @@ class CreateApplicationResponseTest extends TestCase
         )->assertFalse($application->fresh()->isApproved());
 
         $this->seeInDatabase('application_responses', ['application_id' => $application->id]);
+        $this->assertContains('success', $this->response->content());
     }
 
     /** @test */
@@ -58,6 +60,7 @@ class CreateApplicationResponseTest extends TestCase
         )->assertTrue($applications[0]->isApproved());
 
         $this->assertTrue($applications[1]->response->type == 'rejected');
+        $this->assertContains('success', $this->response->content());
     }
 
     /** @test */

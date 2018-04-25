@@ -14,6 +14,8 @@ class CreateApplicationTest extends TestCase
                 'worker_id' => $worker->id,
                 'job_id' => $job->id
             ]);
+
+        $this->assertContains('success', $this->response->content());
     }
 
     /** @test */

@@ -63,7 +63,7 @@ class JobsController extends Controller
 
         $job->saveTags($request->input('tags'));
 
-        return $this->respond($job);
+        return response()->json(['success' => 'Job created']);
     }
 
     /**

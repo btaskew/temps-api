@@ -47,7 +47,7 @@ class EducationController extends Controller
             'completion_date' => 'date|required'
         ]);
         
-        return Education::create([
+        Education::create([
             'level' => $request->input('level'),
             'name' => $request->input('name'),
             'grade' => $request->input('grade'),
@@ -55,5 +55,7 @@ class EducationController extends Controller
             'completion_date' => $request->input('completion_date'),
             'worker_id' => Auth::user()->worker->id
         ]);
+
+        return response()->json(['success' => 'Education saved']);
     }
 }

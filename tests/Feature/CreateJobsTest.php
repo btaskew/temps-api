@@ -16,6 +16,8 @@ class CreateJobsTest extends TestCase
                 'title' => $job['title'],
                 'description' => $job['description']
             ]);
+
+        $this->assertContains('success', $this->response->content());
     }
 
     /** @test */
@@ -44,7 +46,7 @@ class CreateJobsTest extends TestCase
         ]);
 
         $this->post('/jobs?token=' . $staff->user->activeUser->token, $job)
-            ->assertContains("The open vacancies must be at least 1.", $this->response->content());
+            ->assertContains('The open vacancies must be at least 1.', $this->response->content());
     }
 
     /** @test */
