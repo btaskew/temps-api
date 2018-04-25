@@ -10,7 +10,7 @@ class StaffController extends Controller
      * Signup a new staff user
      *
      * @param Request $request
-     * @return \App\ActiveUser|\Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -18,6 +18,6 @@ class StaffController extends Controller
 
         $user->staff()->create();
 
-        return $this->respond($user->setActive());
+        return $this->respond($user->login());
     }
 }

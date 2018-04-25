@@ -14,7 +14,7 @@ class ExperienceValidationTest extends TestCase
         parent::setUp();
 
         $this->withExceptionHandling();
-        $this->path = '/profile/experience?token=' . setActiveWorker()->user->activeUser->token;
+        $this->path = '/profile/experience?token=' . loginWorker()->user->token;
     }
 
     /** @test */

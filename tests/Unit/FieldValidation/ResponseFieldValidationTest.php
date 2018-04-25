@@ -15,11 +15,10 @@ class ResponseFieldValidationTest extends TestCase
 
         $this->withExceptionHandling();
 
-        $staff = setActiveStaff();
+        $staff = loginStaff();
         $job = create('App\Job', ['staff_id' => $staff->id]);
         $application = create('App\Application', ['job_id' => $job->id]);
-        $this->path = "/jobs/$job->id/applications/$application->id/respond?token=" .
-            $staff->user->activeUser->token;
+        $this->path = "/jobs/$job->id/applications/$application->id/respond?token=" . $staff->user->token;
     }
 
     /** @test */

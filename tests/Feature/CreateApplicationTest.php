@@ -6,10 +6,10 @@ class CreateApplicationTest extends TestCase
     public function an_active_worker_can_apply_to_a_job()
     {
         $job = create('App\Job', ['staff_id' => '1']);
-        $worker = setActiveWorker();
+        $worker = loginWorker();
         $application = $this->createApplicationData($worker->id, $job->id);
 
-        $this->post("/jobs/$job->id/apply?token=" . $worker->user->activeUser->token, $application)
+        $this->post("/jobs/$job->id/apply?token=" . $worker->user->token, $application)
             ->seeInDatabase('applications', [
                 'worker_id' => $worker->id,
                 'job_id' => $job->id
@@ -22,10 +22,10 @@ class CreateApplicationTest extends TestCase
     public function applying_to_a_job_also_saves_given_experience()
     {
         $job = create('App\Job', ['staff_id' => '1']);
-        $worker = setActiveWorker();
+        $worker = loginWorker();
         $application = $this->createApplicationData($worker->id, $job->id);
 
-        $this->post("/jobs/$job->id/apply?token=" . $worker->user->activeUser->token, $application)
+        $this->post("/jobs/$job->id/apply?token=" . $worker->user->token, $application)
             ->seeInDatabase('application_experience', [
                 'experience_id' => $application['experience'][0],
                 'experience_id' => $application['experience'][1]
@@ -35,22 +35,22 @@ class CreateApplicationTest extends TestCase
     /** @test */
     public function a_worker_cant_apply_to_a_job_past_its_closing_date()
     {
-        $worker = setActiveWorker();
+        $worker = loginWorker();
         $job = create('App\Job', ['closing_date' => \Carbon\Carbon::yesterday()]);
         $application = $this->createApplicationData($worker->id, $job->id);
 
-        $this->post("/jobs/$job->id/apply?token=" . $worker->user->activeUser->token, $application)
+        $this->post("/jobs/$job->id/apply?token=" . $worker->user->token, $application)
             ->assertResponseStatus(403);
     }
 
     /** @test */
     public function a_worker_cant_apply_to_a_job_with_no_open_vacancies()
     {
-        $worker = setActiveWorker();
+        $worker = loginWorker();
         $job = create('App\Job', ['open_vacancies' => 0]);
         $application = $this->createApplicationData($worker->id, $job->id);
 
-        $this->post("/jobs/$job->id/apply?token=" . $worker->user->activeUser->token, $application)
+        $this->post("/jobs/$job->id/apply?token=" . $worker->user->token, $application)
             ->assertResponseStatus(403);
     }
 
@@ -71,9 +71,9 @@ class CreateApplicationTest extends TestCase
         $this->withExceptionHandling();
 
         $job = create('App\Job');
-        $staff = setActiveStaff();
+        $staff = loginStaff();
 
-        $this->post("/jobs/$job->id/apply", ['token' => $staff->user->activeUser->token])
+        $this->post("/jobs/$job->id/apply", ['token' => $staff->user->token])
             ->assertResponseStatus(403);
     }
 

@@ -45,13 +45,13 @@ class CreateApplicationResponseTest extends TestCase
     /** @test */
     public function staff_can_automatically_reject_other_applications_on_approval()
     {
-        $staff = setActiveStaff();
+        $staff = loginStaff();
         $job = create('App\Job', ['staff_id' => $staff->id]);
         $applications = create('App\Application', ['job_id' => $job->id], 2);
 
         $this->post(
             "/jobs/$job->id/applications/". $applications[0]->id .
-                "/respond?token=" . $staff->user->activeUser->token,
+                "/respond?token=" . $staff->user->token,
             [
                 'type' => 'approved',
                 'comment' => 'You are perfect for this job',
@@ -66,12 +66,12 @@ class CreateApplicationResponseTest extends TestCase
     /** @test */
     public function approving_an_application_reduces_the_jobs_open_vacancies()
     {
-        $staff = setActiveStaff();
+        $staff = loginStaff();
         $job = create('App\Job', ['staff_id' => $staff->id, 'open_vacancies' => 2]);
         $application = create('App\Application', ['job_id' => $job->id]);
 
         $this->post(
-            "/jobs/$job->id/applications/$application->id/respond?token=" . $staff->user->activeUser->token,
+            "/jobs/$job->id/applications/$application->id/respond?token=" . $staff->user->token,
             [
                 'type' => 'approved',
                 'comment' => 'You are perfect for this job',
@@ -101,12 +101,12 @@ class CreateApplicationResponseTest extends TestCase
     {
         $this->withExceptionHandling();
 
-        $staff = setActiveStaff();
+        $staff = loginStaff();
         $job = create('App\Job');
         $application = create('App\Application', ['job_id' => $job->id]);
 
         $this->post(
-            "/jobs/$job->id/applications/$application->id/respond?token=" . $staff->user->activeUser->token
+            "/jobs/$job->id/applications/$application->id/respond?token=" . $staff->user->token
         )->assertResponseStatus(403);
     }
 
@@ -115,12 +115,12 @@ class CreateApplicationResponseTest extends TestCase
     {
         $this->withExceptionHandling();
 
-        $worker = setActiveWorker();
+        $worker = loginWorker();
         $job = create('App\Job');
         $application = create('App\Application', ['job_id' => $job->id]);
 
         $this->post(
-            "/jobs/$job->id/applications/$application->id/respond?token=" . $worker->user->activeUser->token
+            "/jobs/$job->id/applications/$application->id/respond?token=" . $worker->user->token
         )->assertResponseStatus(403);
     }
 
@@ -129,10 +129,10 @@ class CreateApplicationResponseTest extends TestCase
      */
     private function runFactories()
     {
-        $staff = setActiveStaff();
+        $staff = loginStaff();
         $job = create('App\Job', ['staff_id' => $staff->id]);
         $application = create('App\Application', ['job_id' => $job->id]);
-        $path = "/jobs/$job->id/applications/$application->id/respond?token=" . $staff->user->activeUser->token;
+        $path = "/jobs/$job->id/applications/$application->id/respond?token=" . $staff->user->token;
         return [$application, $path, $job];
     }
 }

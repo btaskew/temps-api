@@ -18,7 +18,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password'
+        'name', 'email', 'password', 'token'
     ];
 
     /**
@@ -29,25 +29,6 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $hidden = [
         'password', 'id'
     ];
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::deleting(function ($user) {
-            $user->activeUser->delete();
-        });
-    }
-
-    /**
-     * A User has one ActiveUser
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function activeUser()
-    {
-        return $this->hasOne(ActiveUser::class);
-    }
 
     /**
      * A User has a Staff
@@ -70,14 +51,14 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     }
 
     /**
-     * Creates an ActiveUser instance for the current user
+     * Creates and assigns a login token for the user
      *
-     * @return ActiveUser
+     * @return $this
      */
-    public function setActive()
+    public function login()
     {
-        return $this->activeUser()->create([
-            'token' => bin2hex(random_bytes(20))
-        ]);
+        $this->update(['token' => bin2hex(random_bytes(20))]);
+
+        return $this;
     }
 }

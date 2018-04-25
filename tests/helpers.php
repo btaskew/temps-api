@@ -36,21 +36,21 @@ function raw($class, $attributes = [], $count = null)
 /**
  * @return App\Staff
  */
-function setActiveStaff()
+function loginStaff()
 {
     $user = create('App\User');
     $staff = create('App\Staff', ['user_id' => $user->id]);
-    $user->setActive();
+    $user->login();
     return $staff;
 }
 
 /**
  * @return App\Worker
  */
-function setActiveWorker()
+function loginWorker()
 {
     $user = create('App\User');
     $worker = create('App\Worker', ['user_id' => $user->id]);
-    $user->setActive();
+    $user->login();
     return $worker;
 }

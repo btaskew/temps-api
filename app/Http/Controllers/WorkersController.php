@@ -18,6 +18,6 @@ class WorkersController extends Controller
 
         $user->worker()->create();
 
-        return $this->respond($user->setActive());
+        return $this->respond($user->login());
     }
 }

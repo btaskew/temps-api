@@ -14,7 +14,7 @@ class JobFieldValidationTest extends TestCase
         parent::setUp();
 
         $this->withExceptionHandling();
-        $this->token = setActiveStaff()->user->activeUser->token;
+        $this->token = loginStaff()->user->token;
     }
 
     /** @test */

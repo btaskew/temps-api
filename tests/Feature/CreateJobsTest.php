@@ -5,13 +5,13 @@ class CreateJobsTest extends TestCase
     /** @test */
     public function an_active_staff_user_can_create_a_new_job()
     {
-        $staff = setActiveStaff();
+        $staff = loginStaff();
 
         $job = raw('App\Job', [
             'tags' => ['foo', 'bar']
         ]);
 
-        $this->post('/jobs?token=' . $staff->user->activeUser->token, $job)
+        $this->post('/jobs?token=' . $staff->user->token, $job)
             ->seeInDatabase('jobs', [
                 'title' => $job['title'],
                 'description' => $job['description']
@@ -23,13 +23,13 @@ class CreateJobsTest extends TestCase
     /** @test */
     public function creating_a_job_saves_jobs_tags()
     {
-        $staff = setActiveStaff();
+        $staff = loginStaff();
 
         $job = raw('App\Job', [
             'tags' => ['foo', 'bar']
         ]);
 
-        $this->post('/jobs?token=' . $staff->user->activeUser->token, $job)
+        $this->post('/jobs?token=' . $staff->user->token, $job)
             ->seeInDatabase('tags', ['tag' => 'foo', 'tag' => 'bar']);
     }
 
@@ -38,14 +38,14 @@ class CreateJobsTest extends TestCase
     {
         $this->withExceptionHandling();
 
-        $staff = setActiveStaff();
+        $staff = loginStaff();
 
         $job = factory('App\Job')->raw([
             'open_vacancies' => 0,
             'tags' => ['foo', 'bar']
         ]);
 
-        $this->post('/jobs?token=' . $staff->user->activeUser->token, $job)
+        $this->post('/jobs?token=' . $staff->user->token, $job)
             ->assertContains('The open vacancies must be at least 1.', $this->response->content());
     }
 
@@ -67,21 +67,21 @@ class CreateJobsTest extends TestCase
     {
         $this->withExceptionHandling();
 
-        $worker = setActiveWorker();
+        $worker = loginWorker();
 
         $job = raw('App\Job');
 
-        $this->post('/jobs?token=' . $worker->user->activeUser->token, $job)
+        $this->post('/jobs?token=' . $worker->user->token, $job)
             ->assertResponseStatus(403);
     }
 
     /** @test */
     public function a_jobs_owner_can_delete_their_job()
     {
-        $staff = setActiveStaff();
+        $staff = loginStaff();
         $job = create('App\Job', ['staff_id' => $staff->id]);
 
-        $this->delete("/jobs/$job->id", ['token' => $staff->user->activeUser->token])
+        $this->delete("/jobs/$job->id", ['token' => $staff->user->token])
             ->notSeeInDatabase('jobs', $job->getAttributes());
     }
 
@@ -93,9 +93,9 @@ class CreateJobsTest extends TestCase
         $staff = create('App\Staff');
         $job = create('App\Job', ['staff_id' => $staff->id]);
 
-        $otherStaff = setActiveStaff();
+        $otherStaff = loginStaff();
 
-        $this->delete("/jobs/$job->id", ['token' => $otherStaff->user->activeUser->token])
+        $this->delete("/jobs/$job->id", ['token' => $otherStaff->user->token])
             ->assertResponseStatus(403);
     }
 
@@ -108,19 +108,19 @@ class CreateJobsTest extends TestCase
             'staff_id' => '1'
         ]);
 
-        $worker = setActiveWorker();
+        $worker = loginWorker();
 
-        $this->delete("/jobs/$job->id", ['token' => $worker->user->activeUser->token])
+        $this->delete("/jobs/$job->id", ['token' => $worker->user->token])
             ->assertResponseStatus(403);
     }
 
     /** @test */
     public function a_jobs_owner_can_edit_their_job()
     {
-        $staff = setActiveStaff();
+        $staff = loginStaff();
         $job = create('App\Job', ['staff_id' => $staff->id]);
 
-        $this->patch("/jobs/$job->id", ['token' => $staff->user->activeUser->token, "title" => "New title"])
+        $this->patch("/jobs/$job->id", ['token' => $staff->user->token, "title" => "New title"])
             ->seeInDatabase('jobs', [
                 'title' => 'New title'
             ]);
@@ -131,11 +131,11 @@ class CreateJobsTest extends TestCase
     /** @test */
     public function a_jobs_owner_can_edit_tags_for_their_job()
     {
-        $staff = setActiveStaff();
+        $staff = loginStaff();
         $job = create('App\Job', ['staff_id' => $staff->id]);
         $job->saveTags(['foo']);
 
-        $this->patch("/jobs/$job->id", ['token' => $staff->user->activeUser->token, "tags" => ['foo', 'bar']])
+        $this->patch("/jobs/$job->id", ['token' => $staff->user->token, "tags" => ['foo', 'bar']])
             ->seeInDatabase('tags', [
                 'tag' => 'foo',
                 'tag' => 'bar',
@@ -152,9 +152,9 @@ class CreateJobsTest extends TestCase
         $staff = create('App\Staff');
         $job = create('App\Job', ['staff_id' => $staff->id]);
 
-        $otherStaff = setActiveStaff();
+        $otherStaff = loginStaff();
 
-        $this->patch("/jobs/$job->id", ['token' => $otherStaff->user->activeUser->token])
+        $this->patch("/jobs/$job->id", ['token' => $otherStaff->user->token])
             ->assertResponseStatus(403);
     }
 }

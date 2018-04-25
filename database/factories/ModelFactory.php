@@ -49,13 +49,6 @@ $factory->define(App\Worker::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\ActiveUser::class, function (Faker\Generator $faker) {
-    return [
-        'user_id' => $faker->randomDigitNotNull,
-        'token' => $faker->word
-    ];
-});
-
 $factory->define(App\Application::class, function (Faker\Generator $faker) {
     return [
         'worker_id' => function() {

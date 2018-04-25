@@ -14,7 +14,7 @@ class EducationFieldValidationTest extends TestCase
         parent::setUp();
 
         $this->withExceptionHandling();
-        $this->path = '/profile/education?token=' . setActiveWorker()->user->activeUser->token;
+        $this->path = '/profile/education?token=' . loginWorker()->user->token;
     }
 
     /** @test */

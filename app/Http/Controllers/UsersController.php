@@ -27,7 +27,7 @@ class UsersController extends Controller
             return $this->respondError('Invalid credentials', 401);
         }
 
-        return $this->respond($user->setActive());
+        return $this->respond($user->login());
     }
 
     /**
@@ -44,11 +44,11 @@ class UsersController extends Controller
 
         $user = User::where('email', $request->input('email'))->firstOrFail();
 
-        if (!$user->activeUser) {
+        if (!$user->token) {
             return response()->json(['success' => 'You are already logged out']);
         }
 
-        $user->activeUser->delete();
+        $user->update(['token' => null]);
 
         return response()->json(['success' => 'Log out successful']);
     }

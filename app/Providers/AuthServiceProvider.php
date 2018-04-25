@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\ActiveUser;
+use App\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\ServiceProvider;
@@ -26,7 +26,7 @@ class AuthServiceProvider extends ServiceProvider
             }
 
             try {
-                $user = $this->getActiveUser($request->input('token'));
+                $user = User::where('token', $request->input('token'))->firstOrFail();
             } catch (ModelNotFoundException $exception) {
                 throw new UnauthorizedHttpException('unauthorised', 'User not signed in');
             }
@@ -55,17 +55,5 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('access-experience', function ($worker, $experience) {
             return $worker->id == $experience->worker_id;
         });
-    }
-
-    /**
-     * Returns ActiveUser by token
-     *
-     * @param string $token
-     * @return \App\User
-     */
-    private function getActiveUser(string $token)
-    {
-        $activeUser = ActiveUser::where('token', $token)->firstOrFail();
-        return $activeUser->user;
     }
 }

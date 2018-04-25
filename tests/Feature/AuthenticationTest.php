@@ -39,18 +39,6 @@ class AuthenticationTest extends TestCase
     }
 
     /** @test */
-    public function signing_up_a_new_user_also_logs_them_in()
-    {
-        $user = raw('App\User');
-
-        $this->post('/signup/worker', $user)
-            ->seeInDatabase('active_users', [
-                // We know this will be 1 as it's the only user
-                'user_id' => 1
-            ]);
-    }
-
-    /** @test */
     public function cant_sign_up_a_new_user_with_the_same_email()
     {
         $this->withExceptionHandling();
@@ -73,13 +61,13 @@ class AuthenticationTest extends TestCase
             'password' => \Illuminate\Support\Facades\Hash::make('password')
         ]);
 
+        $this->assertNull($user->token);
+
         $this->post('/login', [
                 'email' => $user->email,
                 'password' => 'password'
             ])
-            ->seeInDatabase('active_users', [
-                'user_id' => $user->id
-            ]);
+            ->assertNotNull($user->fresh()->token);
 
         $this->assertContains('token', $this->response->content());
     }
@@ -117,12 +105,12 @@ class AuthenticationTest extends TestCase
     /** @test */
     public function can_logout_an_active_user()
     {
-        $user = create('App\User')->setActive()->user;
+        $user = create('App\User')->login();
+
+        $this->assertNotNull($user->token);
 
         $this->post('/logout', ['email' => $user->email])
-            ->notSeeInDatabase('active_users', [
-                'user_id' => $user->id
-            ]);
+            ->assertNull($user->fresh()->token);
 
         $this->assertContains('success', $this->response->content());
     }

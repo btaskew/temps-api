@@ -5,10 +5,10 @@ class ViewExperienceTest extends TestCase
     /** @test */
     public function can_view_users_experience()
     {
-        $worker = setActiveWorker();
+        $worker = loginWorker();
         $experience = create('App\Experience', ['worker_id' => $worker->id], 2);
 
-        $this->get('/profile/experience?token=' . $worker->user->activeUser->token)
+        $this->get('/profile/experience?token=' . $worker->user->token)
             ->seeJson([
                 'title' => $experience->first()->title,
                 'type' => $experience->last()->type,
@@ -18,10 +18,10 @@ class ViewExperienceTest extends TestCase
     /** @test */
     public function can_view_specific_experience()
     {
-        $worker = setActiveWorker();
+        $worker = loginWorker();
         $experience = create('App\Experience', ['worker_id' => $worker->id], 2);
 
-        $this->get('/profile/experience/' . $experience->first()->id . '?token=' . $worker->user->activeUser->token)
+        $this->get('/profile/experience/' . $experience->first()->id . '?token=' . $worker->user->token)
             ->seeJson([
                 'title' => $experience->first()->title,
             ])
@@ -33,10 +33,10 @@ class ViewExperienceTest extends TestCase
     /** @test */
     public function cant_view_other_users_experience()
     {
-        $worker = setActiveWorker();
+        $worker = loginWorker();
         $experience = create('App\Experience', ['worker_id' => $worker->id + 1]);
 
-        $this->get('/profile/experience?token=' . $worker->user->activeUser->token)
+        $this->get('/profile/experience?token=' . $worker->user->token)
             ->dontSeeJson([
                 'title' => $experience->title,
             ]);
@@ -47,10 +47,10 @@ class ViewExperienceTest extends TestCase
     {
         $this->withExceptionHandling();
 
-        $worker = setActiveWorker();
+        $worker = loginWorker();
         $experience = create('App\Experience', ['worker_id' => $worker->id + 1]);
 
-        $this->get('/profile/experience/' . $experience->id . '?token=' . $worker->user->activeUser->token)
+        $this->get('/profile/experience/' . $experience->id . '?token=' . $worker->user->token)
             ->seeStatusCode(403);
     }
 }

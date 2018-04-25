@@ -5,10 +5,10 @@ class CreateExperienceTest extends TestCase
     /** @test */
     public function a_worker_can_add_experience_to_their_profile()
     {
-        $worker = setActiveWorker();
+        $worker = loginWorker();
         $experience = raw('App\Experience');
 
-        $this->post('/profile/experience?token=' . $worker->user->activeUser->token, $experience)
+        $this->post('/profile/experience?token=' . $worker->user->token, $experience)
             ->seeInDatabase('experience', [
                 'type' => $experience['type'],
                 'title' => $experience['title']
@@ -20,21 +20,21 @@ class CreateExperienceTest extends TestCase
     /** @test */
     public function a_staff_cannot_add_experience()
     {
-        $staff = setActiveStaff();
+        $staff = loginStaff();
         $experience = raw('App\Experience');
 
-        $this->post('/profile/experience?token=' . $staff->user->activeUser->token, $experience)
+        $this->post('/profile/experience?token=' . $staff->user->token, $experience)
             ->assertResponseStatus(403);
     }
 
     /** @test */
     public function a_worker_can_edit_their_experience()
     {
-        $worker = setActiveWorker();
+        $worker = loginWorker();
         $experience = create('App\Experience', ['worker_id' => $worker->id]);
 
         $this->patch(
-                "/profile/experience/$experience->id?token=" . $worker->user->activeUser->token,
+                "/profile/experience/$experience->id?token=" . $worker->user->token,
                 ['description' => 'New description']
             )
             ->seeInDatabase('experience', [
@@ -49,11 +49,11 @@ class CreateExperienceTest extends TestCase
     {
         $this->withExceptionHandling();
 
-        $worker = setActiveWorker();
+        $worker = loginWorker();
         $experience = create('App\Experience', ['worker_id' => $worker->id + 1]);
 
         $this->patch(
-            "/profile/experience/$experience->id?token=" . $worker->user->activeUser->token,
+            "/profile/experience/$experience->id?token=" . $worker->user->token,
             ['grade' => 'New grade']
         )
             ->assertResponseStatus(403);
@@ -62,10 +62,10 @@ class CreateExperienceTest extends TestCase
     /** @test */
     public function a_worker_can_delete_their_experience()
     {
-        $worker = setActiveWorker();
+        $worker = loginWorker();
         $experience = create('App\Experience', ['worker_id' => $worker->id]);
 
-        $this->delete("/profile/experience/$experience->id?token=" . $worker->user->activeUser->token)
+        $this->delete("/profile/experience/$experience->id?token=" . $worker->user->token)
             ->notSeeInDatabase('experience', [
                 'grade' => 'New grade'
             ]);
@@ -78,10 +78,10 @@ class CreateExperienceTest extends TestCase
     {
         $this->withExceptionHandling();
 
-        $worker = setActiveWorker();
+        $worker = loginWorker();
         $experience = create('App\Experience', ['worker_id' => $worker->id + 1]);
 
-        $this->delete("/profile/experience/$experience->id?token=" . $worker->user->activeUser->token)
+        $this->delete("/profile/experience/$experience->id?token=" . $worker->user->token)
             ->assertResponseStatus(403);
     }
 }
