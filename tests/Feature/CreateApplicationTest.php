@@ -84,7 +84,8 @@ class CreateApplicationTest extends TestCase
      */
     private function createApplicationData(string $workerId, string $jobId)
     {
-        return raw('App\Application',
+        return raw(
+            'App\Application',
             [
                 'worker_id' => $workerId,
                 'job_id' => $jobId,

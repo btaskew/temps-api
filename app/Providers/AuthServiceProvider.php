@@ -68,5 +68,4 @@ class AuthServiceProvider extends ServiceProvider
         $activeUser = ActiveUser::where('token', $token)->firstOrFail();
         return $activeUser->user;
     }
-
 }

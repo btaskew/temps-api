@@ -80,5 +80,4 @@ class JobFilters extends Filters
     {
         $this->builder->where('staff_id', '=', $id);
     }
-
 }
