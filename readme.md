@@ -4,10 +4,30 @@ jobs based on their role in the application
 Written using the [Lumen](https://lumen.laravel.com/) framework
 
 
-# Development Commands
+# Functions
+Any user can:
+- Sign-up as either staff or worker
+- Login or logout (controlled via tokens)
+- View all open jobs
+- View a specific job
 
-## Local server running
+Staff users can:
+- Create/update/delete a specific job
+- View applications for a specific job
+- View a specific application
+- Respond to an application, with the option to automatically reject all other applications for the job in question
+
+Worker users can:
+- Create an application for a specific job, attaching their experience or education
+- View their applications
+- Create/update experience records
+- Create/update education records
+
+
+
+## Development commands
+### Run local server
 php -S localhost:8000 -t public
 
-## DB migration and seed
-php artisan migrate:refresh --seed
+### Migrate and seed database
+php artisan migrate --seed
