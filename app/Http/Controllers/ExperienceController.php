@@ -26,7 +26,7 @@ class ExperienceController extends Controller
      */
     public function show(Experience $experience)
     {
-        $this->authorize('view-experience', $experience);
+        $this->authorize('access-experience', $experience);
 
         return $experience;
     }
@@ -44,7 +44,7 @@ class ExperienceController extends Controller
             'description' => 'string|required',
             'type' => 'string|required|in:Paid work,Voluntary experience,Other',
             'start_date' => 'date|required',
-            'end_date' => 'date|required',
+            'end_date' => 'date',
         ]);
 
         Experience::create([
@@ -57,5 +57,46 @@ class ExperienceController extends Controller
         ]);
 
         return response()->json(['success' => 'Experience saved']);
+    }
+
+    /**
+     * Update the given experience
+     *
+     * @param Request   $request
+     * @param Experience $experience
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request, Experience $experience)
+    {
+        $this->authorize('access-experience', $experience);
+
+        $this->validate($request, [
+            'title' => 'string',
+            'description' => 'string',
+            'type' => 'string|in:Paid work,Voluntary experience,Other',
+            'start_date' => 'date',
+            'end_date' => 'date',
+        ]);
+
+        $experience->update(
+            $request->only('title', 'description', 'type', 'start_date', 'end_date')
+        );
+
+        return response()->json(['success' => 'Experience updated']);
+    }
+
+    /**
+     * Delete the given experience
+     *
+     * @param Experience $experience
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(Experience $experience)
+    {
+        $this->authorize('access-experience', $experience);
+
+        $experience->delete();
+
+        return response()->json(['success' => 'Experience deleted']);
     }
 }

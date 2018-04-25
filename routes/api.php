@@ -44,10 +44,14 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
         $router->get('/profile/education', 'EducationController@index');
         $router->get('/profile/education/{education}', 'EducationController@show');
         $router->post('/profile/education', 'EducationController@store');
+        $router->patch('/profile/education/{education}', 'EducationController@update');
+        $router->delete('/profile/education/{education}', 'EducationController@destroy');
 
         $router->get('/profile/experience', 'ExperienceController@index');
         $router->get('/profile/experience/{experience}', 'ExperienceController@show');
         $router->post('/profile/experience', 'ExperienceController@store');
+        $router->patch('/profile/experience/{experience}', 'ExperienceController@update');
+        $router->delete('/profile/experience/{experience}', 'ExperienceController@destroy');
     });
 
 });

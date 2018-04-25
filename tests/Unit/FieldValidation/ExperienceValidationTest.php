@@ -61,13 +61,4 @@ class ExperienceValidationTest extends TestCase
         $this->post($this->path, $experience)
             ->assertContains('The start date field is required.', $this->response->content());
     }
-
-    /** @test */
-    public function an_experience_requires_an_end_date()
-    {
-        $experience = raw('App\Experience', ['end_date' => null]);
-
-        $this->post($this->path, $experience)
-            ->assertContains('The end date field is required.', $this->response->content());
-    }
 }

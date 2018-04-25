@@ -48,11 +48,11 @@ class AuthServiceProvider extends ServiceProvider
             return $staff->id == $job->staff_id;
         });
 
-        Gate::define('view-education', function ($worker, $education) {
+        Gate::define('access-education', function ($worker, $education) {
             return $worker->id == $education->worker_id;
         });
 
-        Gate::define('view-experience', function ($worker, $experience) {
+        Gate::define('access-experience', function ($worker, $experience) {
             return $worker->id == $experience->worker_id;
         });
     }
