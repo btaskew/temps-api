@@ -18,7 +18,7 @@ class ApplicationFieldValidationTest extends TestCase
         );;
 
         $this->post("/jobs/$job->id/apply?token=" . $worker->user->activeUser->token, $application)
-            ->assertContains("The experience field is required.", $this->response->content());
+            ->assertContains('The experience field is required.', $this->response->content());
     }
 
     /** @test */
@@ -31,7 +31,7 @@ class ApplicationFieldValidationTest extends TestCase
         );;
 
         $this->post("/jobs/$job->id/apply?token=" . $worker->user->activeUser->token, $application)
-            ->assertContains("The education field is required.", $this->response->content());
+            ->assertContains('The education field is required.', $this->response->content());
     }
 
     /** @test */
@@ -44,6 +44,6 @@ class ApplicationFieldValidationTest extends TestCase
         );;
 
         $this->post("/jobs/$job->id/apply?token=" . $worker->user->activeUser->token, $application)
-            ->assertContains("The cover letter field is required.", $this->response->content());
+            ->assertContains('The cover letter field is required.', $this->response->content());
     }
 }

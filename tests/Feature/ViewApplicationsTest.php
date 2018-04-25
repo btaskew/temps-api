@@ -8,7 +8,7 @@ class ViewApplicationsTest extends TestCase
         $worker = setActiveWorker();
         create('App\Application', ['worker_id' => $worker->id]);
 
-        $this->get('/profiles/applications?token=' . $worker->user->activeUser->token)
+        $this->get('/profile/applications?token=' . $worker->user->activeUser->token)
             ->seeJsonContains($worker->applications->toArray());
     }
 
@@ -18,7 +18,7 @@ class ViewApplicationsTest extends TestCase
         $worker = setActiveWorker();
         $application = create('App\Application', ['worker_id' => $worker->id]);
 
-        $this->get("/profiles/applications/$application->id?token=" . $worker->user->activeUser->token)
+        $this->get("/profile/applications/$application->id?token=" . $worker->user->activeUser->token)
             ->seeJsonContains($worker->applications()->first()->toArray());
     }
 

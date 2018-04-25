@@ -14,6 +14,11 @@ class Education extends Model
     public $timestamps = false;
 
     /**
+     * @var array
+     */
+    protected $guarded = [];
+
+    /**
      * An Education belongs to a Worker
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

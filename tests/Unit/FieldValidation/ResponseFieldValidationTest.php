@@ -28,7 +28,7 @@ class ResponseFieldValidationTest extends TestCase
         $response = raw('App\ApplicationResponse', ['type' => null]);
 
         $this->post($this->path, $response)
-            ->assertContains("The type field is required.", $this->response->content());
+            ->assertContains('The type field is required.', $this->response->content());
     }
 
     /** @test */
@@ -37,7 +37,7 @@ class ResponseFieldValidationTest extends TestCase
         $response = raw('App\ApplicationResponse', ['type' => 'foo']);
 
         $this->post($this->path, $response)
-            ->assertContains("The selected type is invalid.", $this->response->content());
+            ->assertContains('The selected type is invalid.', $this->response->content());
     }
 
     /** @test */
@@ -46,7 +46,7 @@ class ResponseFieldValidationTest extends TestCase
         $response = raw('App\ApplicationResponse', ['comment' => null]);
 
         $this->post($this->path, $response)
-            ->assertContains("The comment field is required.", $this->response->content());
+            ->assertContains('The comment field is required.', $this->response->content());
     }
 
     /** @test */
@@ -55,6 +55,6 @@ class ResponseFieldValidationTest extends TestCase
         $response = raw('App\ApplicationResponse', ['reject_all' => null]);
 
         $this->post($this->path, $response)
-            ->assertContains("The reject all field is required.", $this->response->content());
+            ->assertContains('The reject all field is required.', $this->response->content());
     }
 }

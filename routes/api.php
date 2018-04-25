@@ -39,7 +39,10 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->group(['middleware' => 'worker'], function () use ($router) {
         $router->post('/jobs/{job}/apply', 'WorkersApplicationsController@store');
 
-        $router->get('/profiles/applications', 'WorkersApplicationsController@index');
-        $router->get('/profiles/applications/{application}', 'WorkersApplicationsController@show');
+        $router->get('/profile/applications', 'WorkersApplicationsController@index');
+        $router->get('/profile/applications/{application}', 'WorkersApplicationsController@show');
+
+        $router->post('/profile/education', 'EducationController@store');
+        $router->post('/profile/experience', 'ExperienceController@store');
     });
 });

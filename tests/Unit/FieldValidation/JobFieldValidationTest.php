@@ -23,7 +23,7 @@ class JobFieldValidationTest extends TestCase
         $job = raw('App\Job', ['title' => null, 'tags' => ['foo']]);
 
         $this->post('/jobs?token=' . $this->token, $job)
-            ->assertContains("The title field is required.", $this->response->content());
+            ->assertContains('The title field is required.', $this->response->content());
     }
 
     /** @test */
@@ -32,7 +32,7 @@ class JobFieldValidationTest extends TestCase
         $job = raw('App\Job', ['description' => null, 'tags' => ['foo']]);
 
         $this->post('/jobs?token=' . $this->token, $job)
-            ->assertContains("The description field is required.", $this->response->content());
+            ->assertContains('The description field is required.', $this->response->content());
     }
 
     /** @test */
@@ -41,7 +41,7 @@ class JobFieldValidationTest extends TestCase
         $job = raw('App\Job');
 
         $this->post('/jobs?token=' . $this->token, $job)
-            ->assertContains("The tags field is required.", $this->response->content());
+            ->assertContains('The tags field is required.', $this->response->content());
     }
 
     /** @test */
@@ -50,7 +50,7 @@ class JobFieldValidationTest extends TestCase
         $job = raw('App\Job', ['closing_date' => null, 'tags' => ['foo']]);
 
         $this->post('/jobs?token=' . $this->token, $job)
-            ->assertContains("The closing date field is required.", $this->response->content());
+            ->assertContains('The closing date field is required.', $this->response->content());
     }
 
     /** @test */
@@ -59,7 +59,7 @@ class JobFieldValidationTest extends TestCase
         $job = raw('App\Job', ['open_vacancies' => null, 'tags' => ['foo']]);
 
         $this->post('/jobs?token=' . $this->token, $job)
-            ->assertContains("The open vacancies field is required.", $this->response->content());
+            ->assertContains('The open vacancies field is required.', $this->response->content());
     }
 
     /** @test */
@@ -68,7 +68,7 @@ class JobFieldValidationTest extends TestCase
         $job = raw('App\Job', ['open_vacancies' => 0, 'tags' => ['foo']]);
 
         $this->post('/jobs?token=' . $this->token, $job)
-            ->assertContains("The open vacancies must be at least 1.", $this->response->content());
+            ->assertContains('The open vacancies must be at least 1.', $this->response->content());
     }
 
     /** @test */
@@ -77,7 +77,7 @@ class JobFieldValidationTest extends TestCase
         $job = raw('App\Job', ['duration' => null, 'tags' => ['foo']]);
 
         $this->post('/jobs?token=' . $this->token, $job)
-            ->assertContains("The duration field is required.", $this->response->content());
+            ->assertContains('The duration field is required.', $this->response->content());
     }
 
     /** @test */
@@ -86,7 +86,7 @@ class JobFieldValidationTest extends TestCase
         $job = raw('App\Job', ['duration' => 0.3, 'tags' => ['foo']]);
 
         $this->post('/jobs?token=' . $this->token, $job)
-            ->assertContains("The duration must be at least 0.5.", $this->response->content());
+            ->assertContains('The duration must be at least 0.5.', $this->response->content());
     }
 
     /** @test */
@@ -95,6 +95,6 @@ class JobFieldValidationTest extends TestCase
         $job = raw('App\Job', ['rate' => null, 'tags' => ['foo']]);
 
         $this->post('/jobs?token=' . $this->token, $job)
-            ->assertContains("The rate field is required.", $this->response->content());
+            ->assertContains('The rate field is required.', $this->response->content());
     }
 }

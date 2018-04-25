@@ -16,9 +16,9 @@ class CreateExperienceTable extends Migration
         Schema::create('experience', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('worker_id');
-            $table->enum('type', ['Paid work', 'Voluntary experience', 'Other']);
             $table->string('title');
             $table->text('description');
+            $table->enum('type', ['Paid work', 'Voluntary experience', 'Other']);
             $table->date('start_date');
             $table->date('end_date');
 

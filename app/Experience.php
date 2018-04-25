@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Experience extends Model
 {
     /**
+     * Disable timestamps for the model
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * The table used by the model
      *
      * @var string
@@ -14,11 +21,9 @@ class Experience extends Model
     protected $table = 'experience';
 
     /**
-     * Disable timestamps for the model
-     *
-     * @var bool
+     * @var array
      */
-    public $timestamps = false;
+    protected $guarded = [];
 
     /**
      * An Experience belongs to a Worker
