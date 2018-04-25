@@ -8,6 +8,13 @@ abstract class TestCase extends Laravel\Lumen\Testing\TestCase
 {
     use DatabaseMigrations;
 
+    /**
+     * Default exception handler
+     *
+     * @var ExceptionHandler
+     */
+    private $oldExceptionHandler;
+
     public function setUp()
     {
         parent::setUp();
@@ -24,6 +31,9 @@ abstract class TestCase extends Laravel\Lumen\Testing\TestCase
         return require __DIR__.'/../bootstrap/app.php';
     }
 
+    /**
+     * Disable exception handling by default for better test debugging
+     */
     private function disableExceptionHandling()
     {
         $this->oldExceptionHandler = $this->app->make(ExceptionHandler::class);
@@ -41,6 +51,11 @@ abstract class TestCase extends Laravel\Lumen\Testing\TestCase
         });
     }
 
+    /**
+     * Re-enable exception handling for testing exceptions
+     *
+     * @return $this
+     */
     protected function withExceptionHandling()
     {
         $this->app->instance(ExceptionHandler::class, $this->oldExceptionHandler);

@@ -14,6 +14,13 @@ class Application extends Model
     protected $guarded = [];
 
     /**
+     * Values to include when returning an application
+     *
+     * @var array
+     */
+    protected $with = ['response'];
+
+    /**
      * An Application belongs to a Worker
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

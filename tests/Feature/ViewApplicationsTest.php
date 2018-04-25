@@ -23,6 +23,19 @@ class ViewApplicationsTest extends TestCase
     }
 
     /** @test */
+    public function a_worker_can_also_see_the_applications_response()
+    {
+        $worker = setActiveWorker();
+        $application = create('App\Application', ['worker_id' => $worker->id]);
+        $response = create('App\ApplicationResponse', ['application_id' => $application->id]);
+
+        $this->get("/profile/applications/$application->id?token=" . $worker->user->activeUser->token)
+            ->seeJsonContains([
+                'comment' => $response->comment
+            ]);
+    }
+
+    /** @test */
     public function a_staff_user_can_view_all_applications_for_a_specific_job()
     {
         $staff = setActiveStaff();
