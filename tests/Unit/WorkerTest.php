@@ -27,4 +27,13 @@ class WorkerTest extends TestCase
 
         $this->assertInstanceOf('App\Experience', $worker->experience->first());
     }
+
+    /** @test */
+    public function a_worker_has_multiple_educations()
+    {
+        $worker = create('App\Worker');
+        create('App\Education', ['worker_id' => $worker->id]);
+
+        $this->assertInstanceOf('App\Education', $worker->education->first());
+    }
 }

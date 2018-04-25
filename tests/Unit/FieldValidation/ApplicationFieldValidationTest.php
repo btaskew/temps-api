@@ -14,11 +14,24 @@ class ApplicationFieldValidationTest extends TestCase
         $job = create('App\Job', ['staff_id' => '1']);
         $worker = setActiveWorker();
         $application = raw('App\Application',
-            ['worker_id' => $worker->id, 'job_id' => $job->id]
+            ['worker_id' => $worker->id, 'job_id' => $job->id, 'education' => [1]]
         );;
 
         $this->post("/jobs/$job->id/apply?token=" . $worker->user->activeUser->token, $application)
             ->assertContains("The experience field is required.", $this->response->content());
+    }
+
+    /** @test */
+    public function an_application_requires_education()
+    {
+        $job = create('App\Job', ['staff_id' => '1']);
+        $worker = setActiveWorker();
+        $application = raw('App\Application',
+            ['worker_id' => $worker->id, 'job_id' => $job->id, 'experience' => [1]]
+        );;
+
+        $this->post("/jobs/$job->id/apply?token=" . $worker->user->activeUser->token, $application)
+            ->assertContains("The education field is required.", $this->response->content());
     }
 
     /** @test */

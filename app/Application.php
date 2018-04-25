@@ -44,6 +44,16 @@ class Application extends Model
     }
 
     /**
+     * An Application belongs to many Educations
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function education()
+    {
+        return $this->belongsToMany(Education::class);
+    }
+
+    /**
      * An Application belongs to many Experiences
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

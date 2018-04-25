@@ -38,6 +38,16 @@ class ApplicationTest extends TestCase
     }
 
     /** @test */
+    public function an_application_has_many_educations()
+    {
+        $application = create('App\Application');
+        $education = create('App\Education', ['worker_id' => $application->owner->id]);
+        $application->education()->attach($education->id);
+
+        $this->assertInstanceOf('App\Education', $application->education->first());
+    }
+
+    /** @test */
     public function an_application_knows_if_it_is_approved()
     {
         $application = create('App\Application');

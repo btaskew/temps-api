@@ -82,9 +82,13 @@ class CreateApplicationTest extends TestCase
      */
     private function createApplicationData(string $workerId, string $jobId)
     {
-        $experienceIds = create('App\Experience', ['worker_id' => $workerId], 2)->pluck('id')->toArray();
         return raw('App\Application',
-            ['worker_id' => $workerId, 'job_id' => $jobId, 'experience' => $experienceIds]
+            [
+                'worker_id' => $workerId,
+                'job_id' => $jobId,
+                'experience' => create('App\Experience', ['worker_id' => $workerId], 2)->pluck('id')->toArray(),
+                'education' => create('App\Education', ['worker_id' => $workerId], 2)->pluck('id')->toArray()
+            ]
         );
     }
 }

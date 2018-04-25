@@ -34,6 +34,16 @@ class Worker extends Model
     }
 
     /**
+     * A Worker has many Educations
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function education()
+    {
+        return $this->hasMany(Education::class);
+    }
+
+    /**
      * A Worker has many Experiences
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

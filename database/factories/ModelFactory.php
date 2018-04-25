@@ -99,3 +99,16 @@ $factory->define(App\Experience::class, function (Faker\Generator $faker) {
         'end_date' => $faker->date()
     ];
 });
+
+$factory->define(App\Education::class, function (Faker\Generator $faker) {
+    return [
+        'worker_id' => function() {
+            return factory('App\Worker')->create()->id;
+        },
+        'name' => $faker->sentence,
+        'level' => $faker->word,
+        'grade' => $faker->word,
+        'institution' => $faker->word,
+        'completion_date' => $faker->date()
+    ];
+});
