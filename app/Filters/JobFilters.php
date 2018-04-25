@@ -3,6 +3,7 @@
 namespace App\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class JobFilters extends Filters
 {
@@ -11,7 +12,7 @@ class JobFilters extends Filters
      *
      * @var array
      */
-    protected $filters = ['tags', 'minDuration', 'maxDuration', 'minRate', 'maxRate'];
+    protected $filters = ['tags', 'minDuration', 'maxDuration', 'minRate', 'maxRate', 'owner'];
 
     /**
      * Show jobs which have a duration more than the given value
@@ -68,6 +69,16 @@ class JobFilters extends Filters
         foreach ($tagsArray as $tag) {
             $this->builder->orWhere('tags.tag', '=', filter_var($tag, FILTER_SANITIZE_STRING));
         }
+    }
+
+    /**
+     * Only show jobs owned by the provided user
+     *
+     * @param string $id
+     */
+    protected function owner(string $id)
+    {
+        $this->builder->where('staff_id', '=', $id);
     }
 
 }

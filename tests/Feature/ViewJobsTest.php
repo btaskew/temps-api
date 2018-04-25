@@ -107,13 +107,13 @@ class ViewJobsTest extends TestCase
     }
 
     /** @test */
-    public function can_query_for_a_specific_users_job()
+    public function a_staff_user_can_query_for_their_jobs()
     {
         $staff = create('App\Staff');
         $job = create('App\Job', ['staff_id' => $staff->id]);
         $otherJob = create('App\Job');
 
-        $this->get("/profiles/$staff->id/jobs")
+        $this->get("/jobs?owner=$staff->id")
             ->seeJsonContains([
                 'title' => $job->title
             ])->dontSeeJson([

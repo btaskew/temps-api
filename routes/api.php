@@ -23,8 +23,6 @@ $router->post('/logout', 'UsersController@logout');
 $router->get('/jobs', 'JobsController@index');
 $router->get('/jobs/{job}', 'JobsController@show');
 
-$router->get('/profiles/{staff}/jobs', 'ProfilesController@showJobs');
-
 $router->group(['middleware' => 'auth'], function () use ($router) {
 
     $router->group(['middleware' => 'staff'], function () use ($router) {
@@ -50,4 +48,5 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
         $router->get('/profile/experience/{experience}', 'ExperienceController@show');
         $router->post('/profile/experience', 'ExperienceController@store');
     });
+
 });
