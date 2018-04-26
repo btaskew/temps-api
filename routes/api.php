@@ -52,6 +52,9 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
         $router->post('/profile/experience', 'ExperienceController@store');
         $router->patch('/profile/experience/{experience}', 'ExperienceController@update');
         $router->delete('/profile/experience/{experience}', 'ExperienceController@destroy');
+
+        $router->get('/profile/{worker}', 'WorkersController@show');
+        $router->patch('/profile/{worker}', 'WorkersController@update');
     });
 
 });

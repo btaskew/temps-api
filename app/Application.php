@@ -14,7 +14,7 @@ class Application extends Model
     protected $guarded = [];
 
     /**
-     * Values to include when returning an application
+     * Relations to include when returning an application
      *
      * @var array
      */

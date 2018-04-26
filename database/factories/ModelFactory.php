@@ -46,6 +46,8 @@ $factory->define(App\Worker::class, function (Faker\Generator $faker) {
         'user_id' => function() {
             return factory('App\User')->create()->id;
         },
+        'address' => $faker->address,
+        'website' => $faker->url
     ];
 });
 

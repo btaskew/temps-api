@@ -16,6 +16,8 @@ class CreateWorkersTable extends Migration
         Schema::create('workers', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
+            $table->text('address')->nullable();
+            $table->string('website')->nullable();
 
             $table->foreign('user_id')
                 ->references('id')->on('users')

@@ -14,6 +14,23 @@ class Worker extends Model
     public $timestamps = false;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'address',
+        'website'
+    ];
+
+    /**
+     * Relations to include when returning a worker
+     *
+     * @var array
+     */
+    protected $with = ['user'];
+
+    /**
      * A Worker has a User
      *
      * @return \Illuminate\Database\Eloquent\Relations\hasOne

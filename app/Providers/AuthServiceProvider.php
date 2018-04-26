@@ -40,20 +40,24 @@ class AuthServiceProvider extends ServiceProvider
      */
     private function setPermissions()
     {
-        Gate::define('edit-job', function ($staff, $job) {
-            return $staff->id == $job->staff_id;
+        Gate::define('edit-job', function ($user, $job) {
+            return $user->id == $job->staff_id;
         });
 
-        Gate::define('create-application-response', function ($staff, $job) {
-            return $staff->id == $job->staff_id;
+        Gate::define('create-application-response', function ($user, $job) {
+            return $user->id == $job->staff_id;
         });
 
-        Gate::define('access-education', function ($worker, $education) {
-            return $worker->id == $education->worker_id;
+        Gate::define('access-education', function ($user, $education) {
+            return $user->id == $education->worker_id;
         });
 
-        Gate::define('access-experience', function ($worker, $experience) {
-            return $worker->id == $experience->worker_id;
+        Gate::define('access-experience', function ($user, $experience) {
+            return $user->id == $experience->worker_id;
+        });
+
+        Gate::define('access-worker', function ($user, $worker) {
+            return $user->id == $worker->user_id;
         });
     }
 }
