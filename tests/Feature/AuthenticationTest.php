@@ -18,6 +18,7 @@ class AuthenticationTest extends TestCase
             ]);
 
         $this->assertContains('token', $this->response->content());
+        $this->assertContains('staff', $this->response->content());
     }
 
     /** @test */
@@ -36,6 +37,7 @@ class AuthenticationTest extends TestCase
             ]);
 
         $this->assertContains('token', $this->response->content());
+        $this->assertContains('worker', $this->response->content());
     }
 
     /** @test */

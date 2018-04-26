@@ -27,7 +27,16 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $hidden = [
-        'password', 'id'
+        'password', 'id', 'staff'
+    ];
+
+    /**
+     * Values to include when returning a user
+     *
+     * @var array
+     */
+    protected $appends = [
+        'type'
     ];
 
     /**
@@ -60,5 +69,19 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         $this->update(['token' => bin2hex(random_bytes(20))]);
 
         return $this;
+    }
+
+    /**
+     * Returns the user's type
+     *
+     * @return string
+     */
+    protected function getTypeAttribute()
+    {
+        if ($this->staff()->exists()) {
+            return 'staff';
+        }
+
+        return 'worker';
     }
 }
