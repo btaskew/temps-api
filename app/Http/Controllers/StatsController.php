@@ -15,7 +15,7 @@ class StatsController extends Controller
      */
     public function index()
     {
-        return response()->json([
+        return $this->respond([
             'jobs_count' => Job::count(),
             'workers_count' => Worker::count(),
             'approved_count' => ApplicationResponse::where('type', '=', 'approved')->count()
