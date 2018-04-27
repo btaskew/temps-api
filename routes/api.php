@@ -15,6 +15,8 @@ $router->get('/', function () use ($router) {
     // Use for testing
 });
 
+$router->get('/stats', 'StatsController@index');
+
 $router->post('/signup/staff', 'StaffController@store');
 $router->post('/signup/worker', 'WorkersController@store');
 $router->post('/login', 'UsersController@login');
