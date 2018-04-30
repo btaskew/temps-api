@@ -75,7 +75,7 @@ class AuthenticationTest extends TestCase
     }
 
     /** @test */
-    public function throws_exception_when_logging_in_with_wrong_password()
+    public function returns_error_when_logging_in_with_wrong_password()
     {
         $this->withExceptionHandling();
 
@@ -87,11 +87,11 @@ class AuthenticationTest extends TestCase
             ])
             ->assertResponseStatus(401);
 
-        $this->assertContains('Invalid credentials', $this->response->content());
+        $this->assertContains('Invalid password', $this->response->content());
     }
 
     /** @test */
-    public function throws_exception_when_logging_in_with_wrong_email()
+    public function returns_error_when_logging_in_with_wrong_email()
     {
         $this->withExceptionHandling();
 
@@ -101,7 +101,9 @@ class AuthenticationTest extends TestCase
                 'email' => 'bar@email.com',
                 'password' => $user->password
             ])
-            ->assertResponseStatus(404);
+            ->assertResponseStatus(401);
+
+        $this->assertContains('Invalid email', $this->response->content());
     }
 
     /** @test */
