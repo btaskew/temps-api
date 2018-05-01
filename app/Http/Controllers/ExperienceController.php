@@ -40,10 +40,10 @@ class ExperienceController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title' => 'string|required',
-            'description' => 'string|required',
-            'type' => 'string|required|in:Paid work,Voluntary experience,Other',
-            'start_date' => 'date|required',
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'type' => 'required|string|in:Paid work,Voluntary experience,Other',
+            'start_date' => 'required|date',
             'end_date' => 'date',
         ]);
 

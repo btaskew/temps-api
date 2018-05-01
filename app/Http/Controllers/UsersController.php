@@ -18,8 +18,8 @@ class UsersController extends Controller
     public function login(Request $request)
     {
         $this->validate($request, [
-            'email' => 'email|required',
-            'password' => 'string|required'
+            'email' => 'required|email',
+            'password' => 'required|string'
         ]);
 
         try {
@@ -44,7 +44,7 @@ class UsersController extends Controller
     public function logout(Request $request)
     {
         $this->validate($request, [
-            'email' => 'email|required'
+            'email' => 'required|email'
         ]);
 
         $user = User::where('email', $request->input('email'))->firstOrFail();

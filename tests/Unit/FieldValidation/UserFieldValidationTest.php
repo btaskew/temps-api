@@ -45,7 +45,7 @@ class UserFieldValidationTest extends TestCase
     /** @test */
     public function a_login_requires_a_password()
     {
-        $this->post('/login', ['email' => 'email'])
+        $this->post('/login', ['email' => 'email@email.com'])
             ->assertContains('The password field is required.', $this->response->content());
     }
 

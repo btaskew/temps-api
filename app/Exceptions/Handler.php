@@ -51,6 +51,12 @@ class Handler extends ExceptionHandler
             return response()->json(['error' => 'Route not found'], 404);
         }
 
+        if ($exception instanceof ValidationException) {
+            // Just return the first validation error as a string
+            $errors = $exception->errors();
+            return response()->json(['error' => reset($errors)[0]], 422);
+        }
+
         return parent::render($request, $exception);
     }
 }

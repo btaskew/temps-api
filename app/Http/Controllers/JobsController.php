@@ -42,13 +42,13 @@ class JobsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title' => 'string|required',
-            'description' => 'string|required',
-            'tags' => 'array|required',
-            'closing_date' => 'date|required',
-            'open_vacancies' => 'numeric|required|min:1',
-            'duration' => 'numeric|required|min:0.5',
-            'rate' => 'numeric|required'
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'tags' => 'required|array',
+            'closing_date' => 'required|date',
+            'open_vacancies' => 'required|numeric|min:1',
+            'duration' => 'required|numeric|min:0.5',
+            'rate' => 'required|numeric'
         ]);
 
         $job = Job::create([

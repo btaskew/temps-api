@@ -40,11 +40,11 @@ class EducationController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'level' => 'string|required',
-            'name' => 'string|required',
-            'grade' => 'string|required',
-            'institution' => 'string|required',
-            'completion_date' => 'date|required'
+            'level' => 'required|string',
+            'name' => 'required|string',
+            'grade' => 'required|string',
+            'institution' => 'required|string',
+            'completion_date' => 'required|date'
         ]);
         
         Education::create([

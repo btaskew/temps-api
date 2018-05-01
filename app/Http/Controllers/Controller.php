@@ -59,9 +59,9 @@ class Controller extends BaseController
     protected function validateUserSignup(Request $request)
     {
         $this->validate($request, [
-            'name' => 'string|required',
-            'email' => 'email|required',
-            'password' => 'string|required'
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'password' => 'required|string'
         ]);
 
         if (User::where('email', $request->input('email'))->first()) {

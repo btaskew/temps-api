@@ -25,9 +25,9 @@ class ApplicationResponseController extends Controller
         }
 
         $this->validate($request, [
-            'type' => 'string|required|in:approved,rejected',
-            'comment' => 'string|nullable|required',
-            'reject_all' => 'bool|nullable|required'
+            'type' => 'required|string|in:approved,rejected',
+            'comment' => 'required|string',
+            'reject_all' => 'required|bool'
         ]);
 
         $application->respond($request->only('type', 'comment', 'reject_all'));
