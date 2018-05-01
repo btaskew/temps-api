@@ -61,12 +61,13 @@ class ViewJobsTest extends TestCase
     public function can_query_for_jobs_by_single_tag()
     {
         $job = create('App\Job');
-        $job->saveTags(['foo', 'bar']);
-        $jobWithNoTags = create('App\Job');
+        $job->saveTags(['foo']);
+        $jobWithDifferantTags = create('App\Job');
+        $jobWithDifferantTags->saveTags(['bar']);
 
         $this->get('/jobs?tags=foo')
             ->seeJsonContains(['title' => $job->title])
-            ->dontSeeJson(['title' => $jobWithNoTags->title]);
+            ->dontSeeJson(['title' => $jobWithDifferantTags->title]);
     }
 
     /** @test */

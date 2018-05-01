@@ -65,8 +65,15 @@ class JobFilters extends Filters
         $this->builder->join('tags', 'jobs.id', '=', 'tags.job_id');
 
         $tagsArray = explode(',', $tags);
+        $firstTag = true;
 
         foreach ($tagsArray as $tag) {
+            if ($firstTag) {
+                $this->builder->where('tags.tag', '=', filter_var($tag, FILTER_SANITIZE_STRING));
+                $firstTag = false;
+                continue;
+            }
+
             $this->builder->orWhere('tags.tag', '=', filter_var($tag, FILTER_SANITIZE_STRING));
         }
     }
