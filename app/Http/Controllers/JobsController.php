@@ -19,7 +19,7 @@ class JobsController extends Controller
     {
         $jobs = Job::latest()->open()->withVacancies()->filter($filters);
 
-        return $this->respond($jobs->get());
+        return $this->respond($jobs->paginate(10));
     }
 
     /**
