@@ -51,6 +51,10 @@ class Handler extends ExceptionHandler
             return response()->json(['error' => 'Route not found'], 404);
         }
 
+        if ($exception instanceof ModelNotFoundException) {
+            return response()->json(['error' => 'Entity not found'], 404);
+        }
+
         if ($exception instanceof ValidationException) {
             // Just return the first validation error as a string
             $errors = $exception->errors();

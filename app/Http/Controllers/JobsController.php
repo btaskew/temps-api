@@ -30,6 +30,7 @@ class JobsController extends Controller
      */
     public function show(Job $job)
     {
+        dd("foo");
         return $this->respond($job);
     }
 
