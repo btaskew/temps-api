@@ -11,6 +11,10 @@ class JobsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Job::class, 30)->create();
+        $jobs = factory(App\Job::class, 30)->create();
+
+        foreach ($jobs as $job) {
+            factory(App\Tag::class, 3)->create(['job_id' => $job->id]);
+        }
     }
 }
