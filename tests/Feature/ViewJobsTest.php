@@ -44,6 +44,18 @@ class ViewJobsTest extends TestCase
     }
 
     /** @test */
+    public function querying_for_a_job_also_returns_their_tags()
+    {
+        $job = create('App\Job');
+        $tag = create('App\Tag', ['job_id' => $job->id]);
+
+        $this->get("/jobs")
+            ->seeJsonContains([
+                'tag' => $tag->tag
+            ]);
+    }
+
+    /** @test */
     public function can_query_for_a_single_job()
     {
         $job = create('App\Job');

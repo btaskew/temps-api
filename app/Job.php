@@ -15,6 +15,13 @@ class Job extends Model
     protected $guarded = [];
 
     /**
+     * Relations to include when querying for the model
+     *
+     * @var array
+     */
+    protected $with = ['tags'];
+
+    /**
      * A Job belongs to a Staff
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
