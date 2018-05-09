@@ -17,7 +17,7 @@ class CreateJobsTest extends TestCase
                 'description' => $job['description']
             ]);
 
-        $this->assertContains('success', $this->response->content());
+        $this->assertContains('id', $this->response->content());
     }
 
     /** @test */
