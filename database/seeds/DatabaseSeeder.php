@@ -11,6 +11,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call('JobsTableSeeder');
+        $this->call('JobsSeeder');
+        $this->call('WorkerSeeder');
     }
 }
