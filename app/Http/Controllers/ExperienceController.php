@@ -11,24 +11,24 @@ class ExperienceController extends Controller
     /**
      * Return all users experience
      *
-     * @return mixed
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        return Auth::user()->worker->experience;
+        return $this->respond(Auth::user()->worker->experience);
     }
 
     /**
      * Return single experience
      *
      * @param Experience $experience
-     * @return Experience
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Experience $experience)
     {
         $this->authorize('access-experience', $experience);
 
-        return $experience;
+        return $this->respond($experience);
     }
 
     /**

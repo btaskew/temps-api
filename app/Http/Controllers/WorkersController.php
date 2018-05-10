@@ -11,13 +11,13 @@ class WorkersController extends Controller
      * Show a workers information
      *
      * @param Worker $worker
-     * @return Worker
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Worker $worker)
     {
         $this->authorize('access-worker', $worker);
 
-        return $worker;
+        return $this->respond($worker);
     }
 
     /**

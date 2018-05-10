@@ -11,24 +11,24 @@ class EducationController extends Controller
     /**
      * Return all users education
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        return Auth::user()->worker->education;
+        return $this->respond(Auth::user()->worker->education);
     }
 
     /**
      * Return single education
      *
      * @param Education $education
-     * @return Education
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Education $education)
     {
         $this->authorize('access-education', $education);
 
-        return $education;
+        return $this->respond($education);
     }
 
     /**
