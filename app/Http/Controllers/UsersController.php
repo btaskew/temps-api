@@ -57,4 +57,15 @@ class UsersController extends Controller
 
         return response()->json(['success' => 'Log out successful']);
     }
+
+    public function show(Request $request)
+    {
+        $this->validate($request, [
+            'token' => 'required|string'
+        ]);
+
+        $user = User::where('token', $request->input('token'))->firstOrFail();
+
+        return $this->respond($user);
+    }
 }

@@ -118,4 +118,16 @@ class AuthenticationTest extends TestCase
 
         $this->assertContains('success', $this->response->content());
     }
+
+    /** @test */
+    public function can_get_a_users_details_by_token()
+    {
+        $user = create('App\User')->login();
+
+        $this->get('/user?token=' . $user->token)
+            ->seeJsonContains([
+                'email' => $user->email,
+                'type' => $user->type
+            ]);
+    }
 }

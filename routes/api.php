@@ -27,6 +27,8 @@ $router->get('/jobs/{job}', 'JobsController@show');
 
 $router->group(['middleware' => 'auth'], function () use ($router) {
 
+    $router->get('/user', 'UsersController@show');
+
     $router->group(['middleware' => 'staff'], function () use ($router) {
         $router->post('/jobs', 'JobsController@store');
         $router->patch('/jobs/{job}', 'JobsController@update');
