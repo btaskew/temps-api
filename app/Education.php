@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Education extends Model
 {
@@ -21,9 +23,9 @@ class Education extends Model
     /**
      * An Education belongs to a Worker
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function worker()
+    public function worker(): BelongsTo
     {
         return $this->belongsTo(Worker::class);
     }
@@ -31,9 +33,9 @@ class Education extends Model
     /**
      * An Education belongs to many Applications
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function applications()
+    public function applications(): BelongsToMany
     {
         return $this->belongsToMany(Application::class);
     }

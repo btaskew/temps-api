@@ -31,7 +31,7 @@ class WorkerMiddleware
      * @param \App\User $user
      * @return bool
      */
-    private function userIsWorker(User $user)
+    private function userIsWorker(User $user): bool
     {
         return $user->worker()->exists();
     }

@@ -31,7 +31,7 @@ class StaffMiddleware
      * @param \App\User $user
      * @return bool
      */
-    private function userIsStaff(User $user)
+    private function userIsStaff(User $user): bool
     {
         return $user->staff()->exists();
     }

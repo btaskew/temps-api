@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Laravel\Lumen\Auth\Authorizable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -42,9 +43,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     /**
      * A User has a Staff
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
-    public function staff()
+    public function staff(): HasOne
     {
         return $this->hasOne(Staff::class);
     }
@@ -52,9 +53,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     /**
      * A User has a Worker
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
-    public function worker()
+    public function worker(): HasOne
     {
         return $this->hasOne(Worker::class);
     }
@@ -76,7 +77,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      *
      * @return string
      */
-    protected function getTypeAttribute()
+    protected function getTypeAttribute(): string
     {
         if ($this->staff()->exists()) {
             return 'staff';

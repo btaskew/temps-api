@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Staff extends Model
 {
@@ -16,9 +18,9 @@ class Staff extends Model
     /**
      * A Staff has a User
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
-    public function user()
+    public function user(): HasOne
     {
         return $this->hasOne(User::class, 'id');
     }
@@ -26,9 +28,9 @@ class Staff extends Model
     /**
      * A User has many Jobs
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function jobs()
+    public function jobs(): HasMany
     {
         return $this->hasMany(Job::class);
     }

@@ -6,6 +6,8 @@ use App\Filters\JobFilters;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Job extends Model
 {
@@ -24,9 +26,9 @@ class Job extends Model
     /**
      * A Job belongs to a Staff
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function owner()
+    public function owner(): BelongsTo
     {
         return $this->belongsTo(Staff::class, 'staff_id');
     }
@@ -34,9 +36,9 @@ class Job extends Model
     /**
      * A Job has many Applications
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function applications()
+    public function applications(): HasMany
     {
         return $this->hasMany(Application::class);
     }
@@ -44,9 +46,9 @@ class Job extends Model
     /**
      * A Job has many Tags
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function tags()
+    public function tags(): HasMany
     {
         return $this->hasMany(Tag::class);
     }
@@ -58,7 +60,7 @@ class Job extends Model
      * @param JobFilters $filters
      * @return Builder
      */
-    public function scopeFilter(Builder $query, JobFilters $filters)
+    public function scopeFilter(Builder $query, JobFilters $filters): Builder
     {
         return $filters->apply($query);
     }
@@ -68,7 +70,7 @@ class Job extends Model
      *
      * @param Builder $query
      */
-    public function scopeOpen(Builder $query)
+    public function scopeOpen(Builder $query): void
     {
         $query->where('closing_date', '>', Carbon::now());
     }
@@ -78,7 +80,7 @@ class Job extends Model
      *
      * @param Builder $query
      */
-    public function scopeWithVacancies(Builder $query)
+    public function scopeWithVacancies(Builder $query): void
     {
         $query->where('open_vacancies', '>', 0);
     }
@@ -88,7 +90,7 @@ class Job extends Model
      *
      * @return bool
      */
-    public function openForApplications()
+    public function openForApplications(): bool
     {
         return $this->closing_date > Carbon::now() && $this->open_vacancies > 0;
     }
@@ -100,7 +102,7 @@ class Job extends Model
      * @param string $coverLetter
      * @return Application
      */
-    public function apply(Worker $worker, string $coverLetter)
+    public function apply(Worker $worker, string $coverLetter): Application
     {
         return $this->applications()->create([
             'worker_id' => $worker->id,
@@ -113,7 +115,7 @@ class Job extends Model
      *
      * @param array $tags
      */
-    public function saveTags(array $tags)
+    public function saveTags(array $tags): void
     {
         foreach ($tags as $tag) {
             $this->tags()->create(['tag' => $tag]);
@@ -123,7 +125,7 @@ class Job extends Model
     /**
      * Rejects all applications for the job that don't have a response
      */
-    public function rejectOpenApplications()
+    public function rejectOpenApplications(): void
     {
         foreach ($this->applications as $application) {
             if (!$application->hasResponse()) {

@@ -3,9 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ApplicationResponse extends Model
 {
+    /**
+     * @var array
+     */
     protected $guarded = [];
 
     protected static function boot()
@@ -26,9 +30,9 @@ class ApplicationResponse extends Model
     /**
      * An ApplicationResponse belongs to an Application
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function application()
+    public function application(): BelongsTo
     {
         return $this->belongsTo(Application::class);
     }

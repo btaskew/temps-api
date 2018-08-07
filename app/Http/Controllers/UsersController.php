@@ -49,15 +49,19 @@ class UsersController extends Controller
 
         $user = User::where('email', $request->input('email'))->firstOrFail();
 
-        if (!$user->token) {
-            return response()->json(['success' => 'You are already logged out']);
-        }
-
         $user->update(['token' => null]);
 
         return response()->json(['success' => 'Log out successful']);
     }
 
+
+    /**
+     * Return a user by the given token
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function show(Request $request)
     {
         $this->validate($request, [

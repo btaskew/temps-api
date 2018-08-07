@@ -2,6 +2,7 @@
 
 namespace App\Filters;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 abstract class Filters
@@ -14,7 +15,7 @@ abstract class Filters
     /**
      * The Eloquent builder.
      *
-     * @var \Illuminate\Database\Eloquent\Builder
+     * @var Builder
      */
     protected $builder;
 
@@ -38,10 +39,10 @@ abstract class Filters
     /**
      * Apply the filters.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder $builder
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param  Builder $builder
+     * @return Builder
      */
-    public function apply($builder)
+    public function apply(Builder $builder): Builder
     {
         $this->builder = $builder;
 
@@ -59,7 +60,7 @@ abstract class Filters
      *
      * @return array
      */
-    public function getFilters()
+    public function getFilters(): array
     {
         return $this->request->only($this->filters);
     }

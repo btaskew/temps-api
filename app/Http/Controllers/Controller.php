@@ -39,7 +39,7 @@ class Controller extends BaseController
      * @param Request $request
      * @return User
      */
-    protected function createUser(Request $request)
+    protected function createUser(Request $request): User
     {
         $this->validateUserSignup($request);
 
@@ -56,7 +56,7 @@ class Controller extends BaseController
      * @param Request $request
      * @throws ConflictHttpException
      */
-    protected function validateUserSignup(Request $request)
+    protected function validateUserSignup(Request $request): void
     {
         $this->validate($request, [
             'name' => 'required|string',

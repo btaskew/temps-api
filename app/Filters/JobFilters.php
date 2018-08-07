@@ -2,9 +2,6 @@
 
 namespace App\Filters;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Auth;
-
 class JobFilters extends Filters
 {
     /**
@@ -19,7 +16,7 @@ class JobFilters extends Filters
      *
      * @param string $duration
      */
-    protected function minDuration(string $duration)
+    protected function minDuration(string $duration): void
     {
         $this->builder->where('duration', '>=', $duration);
     }
@@ -29,7 +26,7 @@ class JobFilters extends Filters
      *
      * @param string $duration
      */
-    protected function maxDuration(string $duration)
+    protected function maxDuration(string $duration): void
     {
         $this->builder->where('duration', '<=', $duration);
     }
@@ -39,7 +36,7 @@ class JobFilters extends Filters
      *
      * @param string $rate
      */
-    protected function minRate(string $rate)
+    protected function minRate(string $rate): void
     {
         $this->builder->where('rate', '>=', $rate);
     }
@@ -49,7 +46,7 @@ class JobFilters extends Filters
      *
      * @param string $rate
      */
-    protected function maxRate(string $rate)
+    protected function maxRate(string $rate): void
     {
         $this->builder->where('rate', '<=', $rate);
     }
@@ -58,9 +55,8 @@ class JobFilters extends Filters
      * Append to query for each tag
      *
      * @param string $tags
-     * @return Builder
      */
-    protected function tags(string $tags)
+    protected function tags(string $tags): void
     {
         $this->builder->join('tags', 'jobs.id', '=', 'tags.job_id');
 
@@ -83,7 +79,7 @@ class JobFilters extends Filters
      *
      * @param string $id
      */
-    protected function owner(string $id)
+    protected function owner(string $id): void
     {
         $this->builder->where('staff_id', '=', $id);
     }

@@ -3,6 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\UnauthorizedException;
 
@@ -23,9 +26,9 @@ class Application extends Model
     /**
      * An Application belongs to a Worker
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function owner()
+    public function owner(): BelongsTo
     {
         return $this->belongsTo(Worker::class, 'worker_id');
     }
@@ -33,9 +36,9 @@ class Application extends Model
     /**
      * An Application belongs to a Job
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function job()
+    public function job(): BelongsTo
     {
         return $this->belongsTo(Job::class);
     }
@@ -43,9 +46,9 @@ class Application extends Model
     /**
      * An Application has an ApplicationResponse
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
-    public function response()
+    public function response(): HasOne
     {
         return $this->hasOne(ApplicationResponse::class);
     }
@@ -53,9 +56,9 @@ class Application extends Model
     /**
      * An Application belongs to many Educations
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function education()
+    public function education(): BelongsToMany
     {
         return $this->belongsToMany(Education::class);
     }
@@ -63,9 +66,9 @@ class Application extends Model
     /**
      * An Application belongs to many Experiences
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function experience()
+    public function experience(): BelongsToMany
     {
         return $this->belongsToMany(Experience::class);
     }
@@ -75,7 +78,7 @@ class Application extends Model
      *
      * @return bool
      */
-    public function isApproved()
+    public function isApproved(): bool
     {
         if (!$this->hasResponse()) {
             return false;
@@ -89,7 +92,7 @@ class Application extends Model
      *
      * @return bool
      */
-    public function hasResponse()
+    public function hasResponse(): bool
     {
         return !is_null($this->response);
     }
@@ -99,7 +102,7 @@ class Application extends Model
      *
      * @param array $experienceIds
      */
-    public function saveExperience(array $experienceIds)
+    public function saveExperience(array $experienceIds): void
     {
         foreach ($experienceIds as $id) {
             $this->validateExperience($id);
@@ -113,7 +116,7 @@ class Application extends Model
      *
      * @param array $response
      */
-    public function respond(array $response)
+    public function respond(array $response): void
     {
         $this->response()->create([
             'type' => $response['type'],

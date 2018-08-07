@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Worker extends Model
 {
@@ -33,9 +35,9 @@ class Worker extends Model
     /**
      * A Worker has a User
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     * @return hasOne
      */
-    public function user()
+    public function user(): HasOne
     {
         return $this->hasOne(User::class, 'id');
     }
@@ -43,9 +45,9 @@ class Worker extends Model
     /**
      * A Worker has many Applications
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function applications()
+    public function applications(): HasMany
     {
         return $this->hasMany(Application::class);
     }
@@ -53,9 +55,9 @@ class Worker extends Model
     /**
      * A Worker has many Educations
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function education()
+    public function education(): HasMany
     {
         return $this->hasMany(Education::class);
     }
@@ -63,9 +65,9 @@ class Worker extends Model
     /**
      * A Worker has many Experiences
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function experience()
+    public function experience(): HasMany
     {
         return $this->hasMany(Experience::class);
     }

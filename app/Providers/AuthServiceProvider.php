@@ -38,7 +38,7 @@ class AuthServiceProvider extends ServiceProvider
     /**
      * Sets permissions on model actions
      */
-    private function setPermissions()
+    private function setPermissions(): void
     {
         Gate::define('edit-job', function ($user, $job) {
             return $user->id == $job->staff_id;
